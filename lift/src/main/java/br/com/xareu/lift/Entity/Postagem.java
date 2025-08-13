@@ -30,11 +30,17 @@ public class Postagem {
     @Column(name = "DT_PUBLICACAO")
     private LocalDateTime dataPublicacao;
 
-    /*como coloca foreign key*/
-    /*private ... id_autor */
+    @Column(name = "CURTIDAS")
+    private List<Curtida> curtidas;
 
-    /*como coloca foreign key*/
-    /*private ... id_comentario */
+    @Column(name = "COMENTARIOS")
+    private List<Comentario> comentarios;
 
+    @Column(name  = "COMPARTILHAMENTOS")
+    private List<Compartilhamento> compartilhamentos;
 
+    /*preciso ver isso com a marion || quiteria*/
+    @OneToOne
+    @JoinColumn(name = "usuario_id_usuario")
+    private Usuario autor;
 }

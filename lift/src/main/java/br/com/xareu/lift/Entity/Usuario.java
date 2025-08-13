@@ -32,6 +32,12 @@ public class Usuario {
     @Column(name = "SEGUIDORES")
     private List<Usuario> seguidores;
 
+    private List<Meta> metas; /*ta certo isso??*/
+
+    private List<Conversa> conversas; /*ta certo isso??*/
+
+    private List<Postagem> postagens; /*ta certo isso??*/
+
     /*Como guardar foto no banco*/
     /*private ... fotoDePerfil;*/
 

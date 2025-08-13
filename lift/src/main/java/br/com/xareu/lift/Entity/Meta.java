@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "TBL_METAS")
-public class Metas {
+public class Meta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,10 @@ public class Metas {
 
     /*como coloca foreign key*/
     /*private ... id_usuario*/
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id_usuario")
+    private Usuario usuario/*Dono das metas*/;
 
     @Column(name = "TX_NOME")
     private String nome;
