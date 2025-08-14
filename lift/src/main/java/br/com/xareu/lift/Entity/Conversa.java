@@ -1,6 +1,7 @@
 package br.com.xareu.lift.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "TBL_CONVERSA")
-@Getter
-@Setter
+@Data
 public class Conversa {
 
     @Id

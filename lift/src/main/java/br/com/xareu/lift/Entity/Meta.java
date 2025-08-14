@@ -2,12 +2,12 @@ package br.com.xareu.lift.Entity;
 
 import br.com.xareu.lift.Enum.StatusMetaEnum;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
-@Entity
+@Data
 @Table(name = "TBL_METAS")
 public class Meta {
 

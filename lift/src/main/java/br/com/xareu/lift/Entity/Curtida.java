@@ -1,13 +1,13 @@
 package br.com.xareu.lift.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "TBL_CURTIDA")
-@Getter
-@Setter
+@Data
 public class Curtida {
 
     @Id

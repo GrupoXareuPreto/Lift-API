@@ -1,6 +1,7 @@
 package br.com.xareu.lift.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "TBL_USUARIO")
-@Getter
-@Setter
+@Data
 public class Usuario {
 
     @Id
@@ -32,7 +32,9 @@ public class Usuario {
     @Column(name = "SEGUIDORES")
     private List<Usuario> seguidores;
 
+    @OneToMany
     private List<Meta> metas; /*ta certo isso??*/
+
 
     private List<Conversa> conversas; /*ta certo isso??*/
 
@@ -40,5 +42,7 @@ public class Usuario {
 
     /*Como guardar foto no banco*/
     /*private ... fotoDePerfil;*/
+
+    /*Ver como funciona os relacionamentos many to one e os relacionamentos one to Many*/
 
 }

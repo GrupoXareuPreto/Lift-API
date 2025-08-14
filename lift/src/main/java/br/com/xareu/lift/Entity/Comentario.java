@@ -1,13 +1,13 @@
 package br.com.xareu.lift.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "TBL_COMENTARIO")
-@Getter
-@Setter
+@Data
 
 public class Comentario {
 
@@ -22,7 +22,7 @@ public class Comentario {
     /*@Column(name = "AUTOR")
     private Usuario autor;*/
 
-    /*nao sei pq ta errado isso aqui, mas vou arruamar, são os mesmos erros que aparecem na classe Compartilhamento*/
+    /*nao sei pq ta errado isso aqui, mas vou arrumar, são os mesmos erros que aparecem na classe Compartilhamento*/
 
 
 }
