@@ -27,20 +27,20 @@ public class Postagem {
     @Column(name = "TX_DESCRICAO")
     private String descricao;
 
-    @Column(name = "DT_PUBLICACAO")
+    @Column(name = "DT_PUBLICACAO", nullable = false)
     private LocalDateTime dataPublicacao;
 
-    @Column(name = "CURTIDAS")
+    @OneToMany(mappedBy = "postagem")
     private List<Curtida> curtidas;
 
-    @Column(name = "COMENTARIOS")
+    @OneToMany(mappedBy = "postagem")
     private List<Comentario> comentarios;
 
-    @Column(name  = "COMPARTILHAMENTOS")
+    @OneToMany(mappedBy = "postagem")
     private List<Compartilhamento> compartilhamentos;
 
     /*preciso ver isso com a marion || quiteria*/
-    @OneToOne
-    @JoinColumn(name = "usuario_id_usuario")
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO")
     private Usuario autor;
 }

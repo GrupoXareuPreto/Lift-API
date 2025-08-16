@@ -29,6 +29,15 @@ public class Mensagem {
     private LocalDateTime data_envio;
 
     @Column(name = "STATUS_MENSAGEM")
+    @Enumerated(EnumType.STRING)
     private StatusMensagemEnum status;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_CONVERSA", nullable = false)
+    private Conversa conversa;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
+    private Usuario autor;
 
 }

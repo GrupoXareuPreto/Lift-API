@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Table(name = "TBL_EVENTO")
 @Data
-
 public class Evento {
 
     @Id
@@ -18,23 +17,17 @@ public class Evento {
     @Column(name = "ID_EVENTO")
     private Long id;
 
-    @Column(name = "PRESENCA")
-    /*duvida: como isso vai aparecer no banco??*/
-    private List<Usuario> presenca;
-
     @Column(name = "TX_DESCRICAO")
     private String descricao;
 
     @Column(name = "TX_LOCALIZACAO")
     private String localizacao;
 
-    @Column(name = "TP_ATIVIDADE")
+    @Column(name = "TX_ATIVIDADE")
     private String tipoAtividade;
 
     @Column(name = "DT_INICIO")
     private LocalDateTime dataInicio;
-
-    /*private ... id_participantes*/
 
     @Column(name = "TX_TITULO")
     private String titulo;
@@ -42,7 +35,11 @@ public class Evento {
     @Column(name = "DT_FIM")
     private LocalDateTime dataFim;
 
-    @Column(name = "AUTOR")
-    private String autor;
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
+    private Usuario autor;
+
+    @ManyToMany(mappedBy = "eventosParticipar")
+    private List<Usuario> participantes;
 
 }

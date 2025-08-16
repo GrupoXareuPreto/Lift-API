@@ -5,10 +5,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "TBL_COMENTARIO")
 @Data
-
 public class Comentario {
 
     @Id
@@ -18,6 +19,20 @@ public class Comentario {
 
     @Column(name = "TX_CONTEUDO")
     private String conteudo;
+
+    @Column(name = "DT_COMENTARIO")
+    private LocalDateTime dataCriacao;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
+    private Usuario autor;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_POSTAGEM", nullable = false)
+    private Postagem postagem;
+
+
+
 
     /*@Column(name = "AUTOR")
     private Usuario autor;*/

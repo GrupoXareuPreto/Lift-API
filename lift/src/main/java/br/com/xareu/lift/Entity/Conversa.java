@@ -17,11 +17,11 @@ public class Conversa {
     @Column(name = "ID_CONVERSA")
     private Long id;
 
-    @Column(name = "USUARIOS")
-    private List<Usuario> usuarios/*usuarios que tem em uma conversa*/;
-
-    @Column(name = "MENSAGENS")
+    @OneToMany(mappedBy = "conversa")
     private List<Mensagem> mensagens;
+
+    @ManyToMany(mappedBy = "conversas")
+    private List<Usuario> usuarios;
 
 
 }

@@ -3,12 +3,11 @@ package br.com.xareu.lift.Entity;
 import br.com.xareu.lift.Enum.StatusMetaEnum;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
+
 @Data
-@Table(name = "TBL_METAS")
+@Table(name = "TBL_META")
+@Entity
 public class Meta {
 
     @Id
@@ -16,20 +15,18 @@ public class Meta {
     @Column(name = "ID_META")
     private Long id;
 
-    /*como coloca foreign key*/
-    /*private ... id_usuario*/
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
+    private Usuario autor/*Dono das metas*/;
 
-    @OneToOne
-    @JoinColumn(name = "usuario_id_usuario")
-    private Usuario usuario/*Dono das metas*/;
-
-    @Column(name = "TX_NOME")
+    @Column(name = "TX_NOME", nullable = false)
     private String nome;
 
     @Column(name = "TX_DESCRICAO")
     private String descricao;
 
-    @Column(name = "STATUS_META")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS_META", nullable = false)
     private StatusMetaEnum status;
 
 }

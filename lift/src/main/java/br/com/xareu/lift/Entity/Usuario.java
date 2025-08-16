@@ -2,10 +2,6 @@ package br.com.xareu.lift.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.boot.spi.JpaOrmXmlPersistenceUnitDefaultAware;
 
 import java.util.List;
 
@@ -15,34 +11,72 @@ import java.util.List;
 public class Usuario {
 
     @Id
-    @Column(name = "ID_USUARIO")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_USUARIO")
     private Long id;
 
-    @Column(name = "TX_NOME")
+    @Column(name = "TX_NOME", nullable = false)
     private String nome;
 
-    @Column(name = "TX_EMAIL")
+    @Column(name = "TX_EMAIL", nullable = false, unique = true)
     private String email;
 
-    /*Preciso ver como fazer o hash e o salt*/
-    @Column(name = "")
+    /*Ver como funciona o hash e o salt*/
+    @Column(name = "TX_SENHA", nullable = false)
     private String senha;
 
-    @Column(name = "SEGUIDORES")
+
+// =========================================================================================
+// Ver com a Marion
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Meta> metas;
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Postagem> postagens;
+
+    @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Curtida> curtidas;
+
+    @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comentario> comentarios;
+
+    @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Evento> eventosCriados;
+
+    @OneToMany(mappedBy = "autor",   cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Mensagem> mensagens;
+
+    @ManyToMany
+    @JoinTable(
+            name = "TBL_USUARIO_EVENTO",
+            joinColumns = @JoinColumn(name = "ID_USUARIO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_EVENTO")
+    )
+    private List<Evento> eventosParticipar;
+
+    @ManyToMany
+    @JoinTable(
+            name = "TBL_SEGUIDORES",
+            joinColumns = @JoinColumn(name = "ID_USUARIO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_SEGUIDOR")
+    )
     private List<Usuario> seguidores;
 
-    @OneToMany
-    private List<Meta> metas; /*ta certo isso??*/
+    @ManyToMany
+    @JoinTable(
+            name = "TBL_SEGUINDO",
+            joinColumns = @JoinColumn(name = "ID_USUARIO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_SEGUIDO")
+    )
+    private List<Usuario> seguindo;
 
-
-    private List<Conversa> conversas; /*ta certo isso??*/
-
-    private List<Postagem> postagens; /*ta certo isso??*/
-
-    /*Como guardar foto no banco*/
-    /*private ... fotoDePerfil;*/
-
-    /*Ver como funciona os relacionamentos many to one e os relacionamentos one to Many*/
+    @ManyToMany
+    @JoinTable(
+            name = "TBL_USUARIO_CONVERSA",
+            joinColumns = @JoinColumn(name = "ID_USUARIO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_CONVERSA")
+    )
+    private List<Conversa> conversas;
 
 }

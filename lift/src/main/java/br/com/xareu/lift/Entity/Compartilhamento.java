@@ -15,6 +15,14 @@ public class Compartilhamento {
     @Column(name = "ID_COMPARTILHAMENTO")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
+    private Usuario autor;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_POSTAGEM", nullable = false)
+    private Postagem postagem;
+
     /*nao sei se isso ta ok*/
     /*private Postagem postagem;*/
 
