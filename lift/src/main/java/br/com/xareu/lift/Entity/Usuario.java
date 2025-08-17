@@ -12,13 +12,13 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_USUARIO")
+    @Column(name = "ID_USUARIO", nullable = false)
     private Long id;
 
     @Column(name = "TX_NOME", nullable = false)
     private String nome;
 
-    @Column(name = "TX_EMAIL", nullable = false, unique = true)
+    @Column(name = "TX_EMAIL", unique = true, nullable = false)
     private String email;
 
     /*Ver como funciona o hash e o salt*/
