@@ -25,6 +25,9 @@ public class Usuario {
     @Column(name = "TX_SENHA", nullable = false)
     private String senha;
 
+    @Column(name = "TX_NOMEUSUARIO" , nullable = false, unique = true)
+    private String nomeUsuario;
+
 
 // =========================================================================================
 // Ver com a Marion

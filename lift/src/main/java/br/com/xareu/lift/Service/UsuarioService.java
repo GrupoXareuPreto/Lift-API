@@ -15,11 +15,16 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public List<Usuario> ListarTodos() {return usuarioRepository.findAll();}
+    public List<Usuario> getAll() {return usuarioRepository.findAll();}
 
 
     public Usuario criarUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
+    }
+
+
+    public Usuario get(Long id){
+            return usuarioRepository.getOne(id);
     }
 
 
