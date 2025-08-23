@@ -34,15 +34,15 @@ public class UsuarioService {
         return Optional.empty();
     }
 
-    public boolean atualizarUsuario(Usuario usuario, Long id){
-        boolean existe = usuarioRepository.findById(id).isPresent();
+    public Optional<Usuario> atualizarUsuario(Usuario usuarioatualizado, Long id){
+        return usuarioRepository.findById(id).map(usuario -> {
+            usuario.setNome(usuarioatualizado.getNome());
+            usuario.setEmail(usuarioatualizado.getEmail());
+            usuario.setSenha(usuarioatualizado.getSenha());
+            usuario.setNomeUsuario(usuarioatualizado.getNomeUsuario());
 
-        if(existe){
-
-        }
-        else {
-            return false;
-        }
+            return usuarioRepository.save(usuario);
+        });
     }
 
     public boolean deletarUsuario(Long id){
