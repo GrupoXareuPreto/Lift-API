@@ -48,11 +48,4 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    /*
-    Editar
-    Excluir
-     */
-
-
 }

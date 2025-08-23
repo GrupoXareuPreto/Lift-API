@@ -1,5 +1,7 @@
 package br.com.xareu.lift.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -36,6 +38,7 @@ public class Usuario {
     private List<Meta> metas;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Postagem> postagens;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
