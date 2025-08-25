@@ -14,7 +14,5 @@ public class ComentarioService {
         this.comentarioRepository = comentarioRepository;
     }
 
-    public List<Comentario> getAll(){
-        return comentarioRepository.findAll();
-    }
+
 }
