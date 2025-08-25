@@ -1,5 +1,6 @@
 package br.com.xareu.lift.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -17,14 +18,17 @@ public class Compartilhamento {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonBackReference
     private Usuario autor;
 
     @ManyToOne
     @JoinColumn(name = "ID_POSTAGEM", nullable = false)
+    @JsonBackReference
     private Postagem postagem;
 
     @OneToOne
     @JoinColumn(name = "MENSAGEM", nullable = false)
+    @JsonBackReference
     private Mensagem mensagem;
 
 }

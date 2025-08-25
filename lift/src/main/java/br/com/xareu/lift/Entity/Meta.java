@@ -29,6 +29,6 @@ public class Meta {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS_META", nullable = false)
-    private StatusMetaEnum status;
+    private StatusMetaEnum status = StatusMetaEnum.PENDENTE;
 
 }

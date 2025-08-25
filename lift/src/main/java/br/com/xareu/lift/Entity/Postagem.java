@@ -38,12 +38,15 @@ public class Postagem {
     private LocalDateTime dataPublicacao = LocalDateTime.now();
 
     @OneToMany(mappedBy = "postagem")
+    @JsonManagedReference
     private List<Curtida> curtidas;
 
     @OneToMany(mappedBy = "postagem")
+    @JsonManagedReference
     private List<Comentario> comentarios;
 
     @OneToMany(mappedBy = "postagem")
+    @JsonManagedReference
     private List<Compartilhamento> compartilhamentos;
 
     /*preciso ver isso com a marion || quiteria*/

@@ -1,5 +1,7 @@
 package br.com.xareu.lift.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -37,9 +39,11 @@ public class Evento {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonBackReference
     private Usuario autor;
 
     @ManyToMany(mappedBy = "eventosParticipar")
+    @JsonManagedReference
     private List<Usuario> participantes;
 
 }

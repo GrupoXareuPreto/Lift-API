@@ -34,15 +34,15 @@ public class MetaService {
         });
     }
 
-    public boolean excluirMeta(Long id){
-        Optional<Meta> meta = metaRepository.findById(id);
+    public boolean deletarMeta(Long id){
+        Optional<Meta> existe = metaRepository.findById(id);
 
-        if(meta.isPresent()){
+        if(existe.isPresent()){
             metaRepository.deleteById(id);
-            return false;
+            return true;
         }
         else{
-            return true;
+            return false;
         }
     }
 }

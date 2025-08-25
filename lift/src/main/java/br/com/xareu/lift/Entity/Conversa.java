@@ -1,5 +1,6 @@
 package br.com.xareu.lift.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -18,9 +19,11 @@ public class Conversa {
     private Long id;
 
     @OneToMany(mappedBy = "conversa")
+    @JsonManagedReference
     private List<Mensagem> mensagens;
 
     @ManyToMany(mappedBy = "conversas")
+    @JsonManagedReference
     private List<Usuario> usuarios;
 
 
