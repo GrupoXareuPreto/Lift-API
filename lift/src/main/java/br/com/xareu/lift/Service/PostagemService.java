@@ -17,15 +17,26 @@ public class PostagemService {
         this.postagemRepository = postagemRepository;
     }
 
-    public List<Postagem> getAll(){
-        return postagemRepository.findAll();
-    }
-
+    /*crud*/
     public Postagem criarPostagem (Postagem postagemNova){
         return  postagemRepository.save(postagemNova);
     }
 
-    public boolean deletarPostagem(Long id){
+    public List<Postagem> getAll(){
+        return postagemRepository.findAll();
+    }
 
+    /*Postagem nao pode ser editada!!!!*/
+
+    public boolean deletarPostagem(Long id){
+        Optional<Postagem> existe = postagemRepository.findById(id);
+
+        if(existe.isPresent()){
+            postagemRepository.deleteById(id);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

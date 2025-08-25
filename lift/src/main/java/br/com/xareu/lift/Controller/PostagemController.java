@@ -5,6 +5,7 @@ import br.com.xareu.lift.Repository.PostagemRepository;
 import br.com.xareu.lift.Repository.UsuarioRepository;
 import br.com.xareu.lift.Service.PostagemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,4 +27,15 @@ public class PostagemController {
         return service.criarPostagem(postagemNova);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarPostagem(@PathVariable Long id){
+        boolean deletado = service.deletarPostagem(id);
+
+        if (deletado){
+            return ResponseEntity.ok().body("Postagem deletada com sucesso");
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

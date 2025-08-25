@@ -20,6 +20,9 @@ public class Usuario {
     @Column(name = "TX_NOME", nullable = false)
     private String nome;
 
+    @Column(name = "TX_BIOGRAFIA")
+    private String biografia;
+
     @Column(name = "TX_EMAIL", unique = true, nullable = false)
     private String email;
 
@@ -35,6 +38,7 @@ public class Usuario {
 // Ver com a Marion
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Meta> metas;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -52,6 +56,9 @@ public class Usuario {
 
     @OneToMany(mappedBy = "autor",   cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mensagem> mensagens;
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compartilhamento> compartilhamentos;
 
     @ManyToMany
     @JoinTable(

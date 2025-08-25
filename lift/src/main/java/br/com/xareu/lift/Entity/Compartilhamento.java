@@ -23,10 +23,8 @@ public class Compartilhamento {
     @JoinColumn(name = "ID_POSTAGEM", nullable = false)
     private Postagem postagem;
 
-    /*nao sei se isso ta ok*/
-    /*private Postagem postagem;*/
-
-    /*nao sei se isso ta ok tbm*/
-    /*private Usuario autor;*/
+    @OneToOne
+    @JoinColumn(name = "MENSAGEM", nullable = false)
+    private Mensagem mensagem;
 
 }

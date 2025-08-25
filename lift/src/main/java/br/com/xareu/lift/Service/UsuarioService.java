@@ -17,6 +17,7 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    /*crud*/
     public List<Usuario> getAll() {return usuarioRepository.findAll();}
 
 
@@ -40,6 +41,7 @@ public class UsuarioService {
             usuario.setEmail(usuarioatualizado.getEmail());
             usuario.setSenha(usuarioatualizado.getSenha());
             usuario.setNomeUsuario(usuarioatualizado.getNomeUsuario());
+            usuario.setBiografia(usuarioatualizado.getBiografia());
 
             return usuarioRepository.save(usuario);
         });

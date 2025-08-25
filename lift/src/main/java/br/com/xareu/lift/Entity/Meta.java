@@ -1,6 +1,7 @@
 package br.com.xareu.lift.Entity;
 
 import br.com.xareu.lift.Enum.StatusMetaEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class Meta {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonBackReference
     private Usuario autor/*Dono das metas*/;
 
     @Column(name = "TX_NOME", nullable = false)
