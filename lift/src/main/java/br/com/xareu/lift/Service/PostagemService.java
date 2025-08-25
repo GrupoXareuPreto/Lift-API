@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostagemService {
@@ -22,5 +23,9 @@ public class PostagemService {
 
     public Postagem criarPostagem (Postagem postagemNova){
         return  postagemRepository.save(postagemNova);
+    }
+
+    public boolean deletarPostagem(Long id){
+
     }
 }
