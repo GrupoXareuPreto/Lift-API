@@ -21,12 +21,6 @@ public class Mensagem {
     @Column(name  = "ID_MENSAGEM")
     private Long  id;
 
-    /*como colocar foreign key*/
-    /*private ... id_conversa*/
-
-    /*como colocar foreign key*/
-    /*private ... id_autor*/
-
     @Column(name = "DT_ENVIO")
     private LocalDateTime data_envio;
 
@@ -36,16 +30,16 @@ public class Mensagem {
 
     @ManyToOne
     @JoinColumn(name = "ID_CONVERSA", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("mensagem-conversa")
     private Conversa conversa;
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("mensagem-usuario")
     private Usuario autor;
 
     @OneToOne(mappedBy = "mensagem", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("compartilhamento-mensagem")
     private Compartilhamento compartilhamento;
 
 }

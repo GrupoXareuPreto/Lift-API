@@ -38,31 +38,31 @@ public class Usuario {
 // Ver com a Marion
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("meta-usuario")
     private List<Meta> metas;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("postagem-usuario")
     private List<Postagem> postagens;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("curtida-usuario")
     private List<Curtida> curtidas;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("comentario-usuario")
     private List<Comentario> comentarios;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("evento-usuario")
     private List<Evento> eventosCriados;
 
     @OneToMany(mappedBy = "autor",   cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("mensagem-usuario")
     private List<Mensagem> mensagens;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("compartilhamento-usuario")
     private List<Compartilhamento> compartilhamentos;
 
     @ManyToMany

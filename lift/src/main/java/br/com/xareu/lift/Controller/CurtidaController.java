@@ -15,11 +15,11 @@ public class CurtidaController {
     @Autowired
     private CurtidaService curtidaService;
 
-
+/*
     @PostMapping
     public Curtida criarCurtida(){
 
     }
-
+*/
 
 }

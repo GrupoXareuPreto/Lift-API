@@ -18,7 +18,7 @@ public class Meta {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("meta-usuario")
     private Usuario autor/*Dono das metas*/;
 
     @Column(name = "TX_NOME", nullable = false)
