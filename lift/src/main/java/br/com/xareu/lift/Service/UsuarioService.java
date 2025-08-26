@@ -47,14 +47,11 @@ public class UsuarioService {
         });
     }
 
-    public boolean deletarUsuario(Long id){
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        if(usuario.isPresent()){
+    public Object deletarUsuario(Long id){
+        if(usuarioRepository.existsById(id)){
             usuarioRepository.deleteById(id);
-            return true;
+            return ResponseEntity.noContent().build();
         }
-        else {
-            return false;
-        }
+        return ResponseEntity.notFound();
     }
 }

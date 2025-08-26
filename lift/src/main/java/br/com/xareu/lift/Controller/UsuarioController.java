@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -39,9 +40,9 @@ public class    UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarUsuario(@PathVariable Long id){
-        boolean deletado = service.deletarUsuario(id);
+        Object deletado = service.deletarUsuario(id);
 
-        if(deletado){
+        if(deletado == ResponseEntity.noContent().build()){
             return ResponseEntity.ok().body("Usuario deletado com sucesso");
         }
         else {
