@@ -2,6 +2,7 @@ package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.Entity.Postagem;
 import br.com.xareu.lift.Repository.PostagemRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -28,15 +29,13 @@ public class PostagemService {
 
     /*Postagem nao pode ser editada!!!!*/
 
-    public boolean deletarPostagem(Long id){
-        Optional<Postagem> existe = postagemRepository.findById(id);
-
-        if(existe.isPresent()){
+    public Object deletarPostagem(Long id){
+        if(postagemRepository.existsById(id)){
             postagemRepository.deleteById(id);
-            return true;
+            return ResponseEntity.noContent().build();
         }
         else{
-            return false;
+            return ResponseEntity.notFound();
         }
     }
 }

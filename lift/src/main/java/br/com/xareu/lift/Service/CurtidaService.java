@@ -2,6 +2,7 @@ package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.Entity.Curtida;
 import br.com.xareu.lift.Repository.CurtidaRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,15 +25,13 @@ public class CurtidaService {
 
     /*Curtida não pode ser editada*/
 
-    public boolean excluirCurtida(Long id){
-        boolean existe = curtidaRepository.existsById(id);
-
-        if(existe){
+    public Object excluirCurtida(Long id){
+        if(curtidaRepository.existsById(id)){
             curtidaRepository.deleteById(id);
-            return true;
+            return ResponseEntity.noContent().build();
         }
         else{
-            return false;
+            return ResponseEntity.notFound();
         }
     }
 }

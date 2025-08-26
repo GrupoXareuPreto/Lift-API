@@ -32,9 +32,9 @@ public class MetaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirMeta(@PathVariable Long id){
-        boolean deletado = service.deletarMeta(id);
+        Object deletado = service.deletarMeta(id);
 
-        if(deletado){
+        if(deletado == ResponseEntity.notFound()){
             return ResponseEntity.ok().body("A meta foi excluida com sucesso");
         }
         else{

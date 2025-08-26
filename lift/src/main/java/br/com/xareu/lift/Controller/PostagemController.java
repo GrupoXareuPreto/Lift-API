@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/postagem")
@@ -29,9 +30,9 @@ public class PostagemController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarPostagem(@PathVariable Long id){
-        boolean deletado = service.deletarPostagem(id);
+        Object deletado = service.deletarPostagem(id);
 
-        if (deletado){
+        if (deletado == ResponseEntity.noContent().build()){
             return ResponseEntity.ok().body("Postagem deletada com sucesso");
         }
         else{

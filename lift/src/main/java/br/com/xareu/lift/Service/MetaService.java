@@ -2,6 +2,7 @@ package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.Entity.Meta;
 import br.com.xareu.lift.Repository.MetaRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,15 +35,13 @@ public class MetaService {
         });
     }
 
-    public boolean deletarMeta(Long id){
-        Optional<Meta> existe = metaRepository.findById(id);
-
-        if(existe.isPresent()){
+    public Object deletarMeta(Long id){
+        if(metaRepository.existsById(id)){
             metaRepository.deleteById(id);
-            return true;
+            return ResponseEntity.noContent().build();
         }
         else{
-            return false;
+            return ResponseEntity.notFound();
         }
     }
 }

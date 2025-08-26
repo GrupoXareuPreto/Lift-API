@@ -16,10 +16,11 @@ public class CurtidaController {
     private CurtidaService curtidaService;
 
 
+    /*
     @PostMapping
     public Curtida criarCurtida(){
 
     }
-
+*/
 
 }
