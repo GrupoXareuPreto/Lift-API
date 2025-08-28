@@ -23,7 +23,7 @@ public class Mensagem {
     private Long  id;
 
     @Column(name = "DT_ENVIO")
-    private LocalDateTime data_envio;
+    private LocalDateTime dataEnvio;
 
     @Column(name = "STATUS_MENSAGEM")
     @Enumerated(EnumType.STRING)

@@ -20,11 +20,17 @@ public class Conversa {
     @Column(name = "ID_CONVERSA")
     private Long id;
 
+    @Column(name = "TX_Foto")
+    private String foto;
+
+    @Column(name = "TX_DESCRICAO")
+    private String descricao;
+
     @OneToMany(mappedBy = "conversa")
     private List<Mensagem> mensagens;
 
     @ManyToMany(mappedBy = "conversas")
-    private List<Usuario> usuarios;
+    private List<Usuario> integrantes;
 
 
 }

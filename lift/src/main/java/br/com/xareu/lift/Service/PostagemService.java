@@ -1,13 +1,13 @@
 package br.com.xareu.lift.Service;
 
+import br.com.xareu.lift.DTO.Resumos.CurtidaResumoDTO;
+import br.com.xareu.lift.DTO.Normais.PostagemDTO;
 import br.com.xareu.lift.Entity.Postagem;
 import br.com.xareu.lift.Repository.PostagemRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostagemService {
@@ -23,8 +23,19 @@ public class PostagemService {
         return  postagemRepository.save(postagemNova);
     }
 
-    public List<Postagem> getAll(){
-        return postagemRepository.findAll();
+    public List<PostagemDTO> getAll(){
+        return postagemRepository.findAll().stream().map(postagem -> new PostagemDTO(
+                postagem.getId(),
+                postagem.getMidia(),
+                postagem.getTitulo(),
+                postagem.getDescricao(),
+                postagem.getDataPublicacao(),
+                postagem.getCurtidas().stream().map(curtida -> new CurtidaResumoDTO(
+                        curtida.getId()
+                )).toList(),
+                postagem.get
+
+        )).toList();
     }
 
     /*Postagem nao pode ser editada!!!!*/

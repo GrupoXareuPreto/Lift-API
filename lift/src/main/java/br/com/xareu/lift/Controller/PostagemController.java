@@ -1,15 +1,12 @@
 package br.com.xareu.lift.Controller;
 
 import br.com.xareu.lift.Entity.Postagem;
-import br.com.xareu.lift.Repository.PostagemRepository;
-import br.com.xareu.lift.Repository.UsuarioRepository;
 import br.com.xareu.lift.Service.PostagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/postagem")

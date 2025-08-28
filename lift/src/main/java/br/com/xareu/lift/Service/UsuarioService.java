@@ -1,8 +1,7 @@
 package br.com.xareu.lift.Service;
 
-import br.com.xareu.lift.DTO.PostagemDTO;
-import br.com.xareu.lift.DTO.PostagemResumoDTO;
-import br.com.xareu.lift.DTO.UsuarioDTO;
+import br.com.xareu.lift.DTO.Resumos.*;
+import br.com.xareu.lift.DTO.Normais.UsuarioDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.UsuarioRepository;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +26,77 @@ public class UsuarioService {
                 usuario.getNome(),
                 usuario.getNomeUsuario(),
                 usuario.getEmail(),
+                usuario.getBiografia(),
                 usuario.getSenha(),
+                usuario.getMetas().stream().map(meta -> new MetaResumoDTO(
+                        meta.getId(),
+                        meta.getNome(),
+                        meta.getDescricao(),
+                        meta.getStatus()
+                )).toList(),
                 usuario.getPostagens().stream().map(postagem -> new PostagemResumoDTO(
                         postagem.getId(),
-                        postagem.getTitulo()
+                        postagem.getTitulo(),
+                        postagem.getMidia(),
+                        postagem.getDescricao(),
+                        postagem.getDataPublicacao()
+                )).toList(),
+                usuario.getCurtidas().stream().map(curtida -> new CurtidaResumoDTO(
+                        curtida.getId()
+                )).toList(),
+                usuario.getComentarios().stream().map(comentario -> new ComentarioResumoDTO(
+                        comentario.getId(),
+                        comentario.getConteudo(),
+                        comentario.getDataCriacao()
+                )).toList(),
+                usuario.getEventosCriados().stream().map(eventos -> new EventoResumoDTO(
+                        eventos.getId(),
+                        eventos.getDescricao(),
+                        eventos.getTitulo(),
+                        eventos.getLocalizacao(),
+                        eventos.getAtividade(),
+                        eventos.getDataInicio(),
+                        eventos.getDataFim()
+                )).toList(),
+                usuario.getMensagens().stream().map(mensagem -> new MensagemResumoDTO(
+                        mensagem.getId(),
+                        mensagem.getDataEnvio(),
+                        mensagem.getStatus()
+                )).toList(),
+                usuario.getCompartilhamentos().stream().map(compartilhamento -> new CompartilhamentoResumoDTO(
+                        compartilhamento.getId()
+                )).toList(),
+                usuario.getEventosParticipar().stream().map(eventosParticipar -> new EventoResumoDTO(
+                        eventosParticipar.getId(),
+                        eventosParticipar.getDescricao(),
+                        eventosParticipar.getTitulo(),
+                        eventosParticipar.getLocalizacao(),
+                        eventosParticipar.getAtividade(),
+                        eventosParticipar.getDataInicio(),
+                        eventosParticipar.getDataFim()
+                )).toList(),
+                usuario.getSeguidores().stream().map(seguidor -> new UsuarioResumoDTO(
+                        seguidor.getId(),
+                        seguidor.getNome(),
+                        seguidor.getBiografia(),
+                        seguidor.getEmail(),
+                        seguidor.getSenha(),
+                        seguidor.getNomeUsuario()
+                )).toList(),
+                usuario.getSeguindo().stream().map(seguindo -> new UsuarioResumoDTO(
+                        seguindo.getId(),
+                        seguindo.getNome(),
+                        seguindo.getBiografia(),
+                        seguindo.getEmail(),
+                        seguindo.getSenha(),
+                        seguindo.getNomeUsuario()
+                )).toList(),
+                usuario.getConversas().stream().map(conversa -> new ConversaResumoDTO(
+                        conversa.getId(),
+                        conversa.getFoto(),
+                        conversa.getDescricao()
                 )).toList()
+
         )).toList();
     }
 

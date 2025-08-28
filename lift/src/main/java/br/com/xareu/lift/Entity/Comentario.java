@@ -34,13 +34,4 @@ public class Comentario {
     @JoinColumn(name = "ID_POSTAGEM", nullable = false)
     private Postagem postagem;
 
-
-
-
-    /*@Column(name = "AUTOR")
-    private Usuario autor;*/
-
-    /*nao sei pq ta errado isso aqui, mas vou arrumar, são os mesmos erros que aparecem na classe Compartilhamento*/
-
-
 }

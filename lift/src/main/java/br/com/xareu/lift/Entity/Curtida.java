@@ -27,6 +27,4 @@ public class Curtida {
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuario autor;
 
-
-
 }

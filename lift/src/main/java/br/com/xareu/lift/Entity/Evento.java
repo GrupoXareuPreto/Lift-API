@@ -21,6 +21,9 @@ public class Evento {
     @Column(name = "ID_EVENTO")
     private Long id;
 
+    @Column(name = "TX_TITULO")
+    private String titulo;
+
     @Column(name = "TX_DESCRICAO")
     private String descricao;
 
@@ -28,13 +31,11 @@ public class Evento {
     private String localizacao;
 
     @Column(name = "TX_ATIVIDADE")
-    private String tipoAtividade;
+    private String atividade;
 
     @Column(name = "DT_INICIO")
     private LocalDateTime dataInicio;
 
-    @Column(name = "TX_TITULO")
-    private String titulo;
 
     @Column(name = "DT_FIM")
     private LocalDateTime dataFim;
