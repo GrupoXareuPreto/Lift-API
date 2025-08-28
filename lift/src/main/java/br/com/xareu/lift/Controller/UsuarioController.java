@@ -1,5 +1,6 @@
 package br.com.xareu.lift.Controller;
 
+import br.com.xareu.lift.DTO.UsuarioDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class    UsuarioController {
     private UsuarioService service;
 
     @GetMapping
-    public List<Usuario> listarTodos(){
+    public List<UsuarioDTO> listarTodos(){
         return service.getAll();
     }
 

@@ -2,7 +2,9 @@ package br.com.xareu.lift.Entity;
 
 import br.com.xareu.lift.Enum.StatusMensagemEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -13,7 +15,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TBL_MENSAGEM")
 @Data
-
 public class Mensagem {
 
     @Id
@@ -30,16 +31,13 @@ public class Mensagem {
 
     @ManyToOne
     @JoinColumn(name = "ID_CONVERSA", nullable = false)
-    @JsonBackReference("mensagem-conversa")
     private Conversa conversa;
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @JsonBackReference("mensagem-usuario")
     private Usuario autor;
 
     @OneToOne(mappedBy = "mensagem", cascade = CascadeType.ALL)
-    @JsonManagedReference("compartilhamento-mensagem")
     private Compartilhamento compartilhamento;
 
 }

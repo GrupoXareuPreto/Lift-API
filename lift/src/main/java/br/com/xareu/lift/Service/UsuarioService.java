@@ -1,5 +1,8 @@
 package br.com.xareu.lift.Service;
 
+import br.com.xareu.lift.DTO.PostagemDTO;
+import br.com.xareu.lift.DTO.PostagemResumoDTO;
+import br.com.xareu.lift.DTO.UsuarioDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.UsuarioRepository;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +21,19 @@ public class UsuarioService {
     }
 
     /*crud*/
-    public List<Usuario> getAll() {return usuarioRepository.findAll();}
+    public List<UsuarioDTO> getAll() {
+        return usuarioRepository.findAll().stream().map(usuario -> new UsuarioDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getNomeUsuario(),
+                usuario.getEmail(),
+                usuario.getSenha(),
+                usuario.getPostagens().stream().map(postagem -> new PostagemResumoDTO(
+                        postagem.getId(),
+                        postagem.getTitulo()
+                )).toList()
+        )).toList();
+    }
 
 
     public Usuario criarUsuario(Usuario usuario){

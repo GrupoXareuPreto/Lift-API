@@ -1,7 +1,6 @@
 package br.com.xareu.lift.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -38,31 +37,24 @@ public class Usuario {
 // Ver com a Marion
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("meta-usuario")
     private List<Meta> metas;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("postagem-usuario")
     private List<Postagem> postagens;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("curtida-usuario")
     private List<Curtida> curtidas;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("comentario-usuario")
     private List<Comentario> comentarios;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("evento-usuario")
     private List<Evento> eventosCriados;
 
     @OneToMany(mappedBy = "autor",   cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("mensagem-usuario")
     private List<Mensagem> mensagens;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("compartilhamento-usuario")
     private List<Compartilhamento> compartilhamentos;
 
     @ManyToMany

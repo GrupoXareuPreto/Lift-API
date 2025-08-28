@@ -1,6 +1,8 @@
 package br.com.xareu.lift.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -19,12 +21,10 @@ public class Curtida {
     /*private ... id_postagem*/
     @ManyToOne
     @JoinColumn(name = "ID_POSTAGEM", nullable = false)
-    @JsonBackReference
     private Postagem postagem;
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @JsonBackReference
     private Usuario autor;
 
 

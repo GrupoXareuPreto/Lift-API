@@ -1,8 +1,6 @@
 package br.com.xareu.lift.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Generated;
@@ -38,20 +36,17 @@ public class Postagem {
     private LocalDateTime dataPublicacao = LocalDateTime.now();
 
     @OneToMany(mappedBy = "postagem")
-    @JsonManagedReference("curtida-postagem")
     private List<Curtida> curtidas;
 
     @OneToMany(mappedBy = "postagem")
-    @JsonManagedReference("comentario-postagem")
     private List<Comentario> comentarios;
 
     @OneToMany(mappedBy = "postagem")
-    @JsonManagedReference("compartilhameto-postagem")
     private List<Compartilhamento> compartilhamentos;
 
     /*preciso ver isso com a marion || quiteria*/
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO")
-    @JsonBackReference("postagem-usuario")
+    @JsonIgnore
     private Usuario autor;
 }
