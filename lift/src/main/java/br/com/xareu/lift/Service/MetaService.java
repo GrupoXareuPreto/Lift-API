@@ -17,8 +17,8 @@ public class MetaService {
         this.metaRepository = metaRepository;
     }
 
-    public Meta criarMeta(Meta meta){
-        return metaRepository.save(meta);
+    public Meta criarMeta(Meta metaNova){
+        return metaRepository.save(metaNova);
     }
 
     public List<Meta> getAll(){
@@ -35,13 +35,13 @@ public class MetaService {
         });
     }
 
-    public Object deletarMeta(Long id){
+    public boolean deletarMeta(Long id){
         if(metaRepository.existsById(id)){
             metaRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return true;
         }
         else{
-            return ResponseEntity.notFound();
+            return false;
         }
     }
 }

@@ -23,30 +23,19 @@ public class PostagemService {
         return  postagemRepository.save(postagemNova);
     }
 
-    public List<PostagemDTO> getAll(){
-        return postagemRepository.findAll().stream().map(postagem -> new PostagemDTO(
-                postagem.getId(),
-                postagem.getMidia(),
-                postagem.getTitulo(),
-                postagem.getDescricao(),
-                postagem.getDataPublicacao(),
-                postagem.getCurtidas().stream().map(curtida -> new CurtidaResumoDTO(
-                        curtida.getId()
-                )).toList(),
-                postagem.getComentarios()
-
-        )).toList();
+    public List<Postagem> getAll(){
+        return postagemRepository.findAll();
     }
 
     /*Postagem nao pode ser editada!!!!*/
 
-    public Object deletarPostagem(Long id){
+    public boolean deletarPostagem(Long id){
         if(postagemRepository.existsById(id)){
             postagemRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return true;
         }
         else{
-            return ResponseEntity.notFound();
+            return false;
         }
     }
 }

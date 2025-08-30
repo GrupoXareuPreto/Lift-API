@@ -39,9 +39,11 @@ public class Usuario {
 // Ver com a Marion
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Meta> metas;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Postagem> postagens;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)

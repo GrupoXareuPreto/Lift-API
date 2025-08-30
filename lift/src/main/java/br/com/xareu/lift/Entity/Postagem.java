@@ -46,7 +46,7 @@ public class Postagem {
 
     /*preciso ver isso com a marion || quiteria*/
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIO")
-    @JsonIgnore
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonBackReference
     private Usuario autor;
 }

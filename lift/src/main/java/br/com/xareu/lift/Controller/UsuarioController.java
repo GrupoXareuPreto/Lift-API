@@ -4,6 +4,7 @@ import br.com.xareu.lift.DTO.Normais.UsuarioDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +18,20 @@ public class    UsuarioController {
     private UsuarioService service;
 
     @GetMapping
-    public List<UsuarioDTO> listarTodos(){
+    public List<Usuario> listarTodos(){
         return service.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id){
-        return service.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+         Usuario usuario = service.buscarPorId(id);
+
+         if(usuario != null){
+            return  ResponseEntity.ok(usuario);
+         }
+         else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
+         }
     }
 
     @PostMapping
@@ -39,9 +47,9 @@ public class    UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarUsuario(@PathVariable Long id){
-        Object deletado = service.deletarUsuario(id);
+        boolean deletado = service.deletarUsuario(id);
 
-        if(deletado == ResponseEntity.noContent().build()){
+        if(deletado){
             return ResponseEntity.ok().body("Usuario deletado com sucesso");
         }
         else {

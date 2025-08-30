@@ -20,100 +20,16 @@ public class UsuarioService {
     }
 
     /*crud*/
-    public List<UsuarioDTO> getAll() {
-
-        return usuarioRepository.findAll().stream().map(usuario -> new UsuarioDTO(
-                        usuario.getId(),
-                        usuario.getNome(),
-                        usuario.getNomeUsuario(),
-                        usuario.getEmail(),
-                        usuario.getBiografia(),
-                        usuario.getSenha(),
-                usuario.getPostagens().stream().map(postagem -> new PostagemResumoDTO(
-                                postagem.getId(),
-                                postagem.getTitulo(),
-                                postagem.getMidia(),
-                                postagem.getDescricao(),
-                                postagem.getDataPublicacao()
-                        )).toList(),
-                usuario.getMetas().stream().map(meta -> new MetaResumoDTO(
-                                meta.getId(),
-                                meta.getNome(),
-                                meta.getDescricao(),
-                                meta.getStatus()
-                        )).toList(),
-                        usuario.getCurtidas().stream().map(curtida -> new CurtidaResumoDTO(
-                                curtida.getId()
-                        )).toList(),
-                        usuario.getComentarios().stream().map(comentario -> new ComentarioResumoDTO(
-                                comentario.getId(),
-                                comentario.getConteudo(),
-                                comentario.getDataCriacao()
-                        )).toList(),
-                        usuario.getEventosCriados().stream().map(eventos -> new EventoResumoDTO(
-                                eventos.getId(),
-                                eventos.getDescricao(),
-                                eventos.getTitulo(),
-                                eventos.getLocalizacao(),
-                                eventos.getAtividade(),
-                                eventos.getDataInicio(),
-                                eventos.getDataFim()
-                        )).toList(),
-                        usuario.getMensagens().stream().map(mensagem -> new MensagemResumoDTO(
-                                mensagem.getId(),
-                                mensagem.getDataEnvio(),
-                                mensagem.getStatus()
-                        )).toList(),
-                        usuario.getCompartilhamentos().stream().map(compartilhamento -> new CompartilhamentoResumoDTO(
-                                compartilhamento.getId()
-                        )).toList(),
-                        usuario.getEventosParticipar().stream().map(eventosParticipar -> new EventoResumoDTO(
-                                eventosParticipar.getId(),
-                                eventosParticipar.getDescricao(),
-                                eventosParticipar.getTitulo(),
-                                eventosParticipar.getLocalizacao(),
-                                eventosParticipar.getAtividade(),
-                                eventosParticipar.getDataInicio(),
-                                eventosParticipar.getDataFim()
-                        )).toList(),
-                        usuario.getSeguidores().stream().map(seguidor -> new UsuarioResumoDTO(
-                                seguidor.getId(),
-                                seguidor.getNome(),
-                                seguidor.getBiografia(),
-                                seguidor.getEmail(),
-                                seguidor.getSenha(),
-                                seguidor.getNomeUsuario()
-                        )).toList(),
-                        usuario.getSeguindo().stream().map(seguindo -> new UsuarioResumoDTO(
-                                seguindo.getId(),
-                                seguindo.getNome(),
-                                seguindo.getBiografia(),
-                                seguindo.getEmail(),
-                                seguindo.getSenha(),
-                                seguindo.getNomeUsuario()
-                        )).toList(),
-                        usuario.getConversas().stream().map(conversa -> new ConversaResumoDTO(
-                                conversa.getId(),
-                                conversa.getFoto(),
-                                conversa.getDescricao()
-                        )).toList()
-
-                )).toList();
+    public List<Usuario> getAll() {
+        return usuarioRepository.findAll();
     }
-
 
     public Usuario criarUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
     }
 
-    public Optional<Usuario> buscarPorId(Long id){
-        try{
-            return usuarioRepository.findById(id);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        return Optional.empty();
+    public Usuario buscarPorId(Long id){
+            return usuarioRepository.findById(id).orElse(null);
     }
 
     public Optional<Usuario> atualizarUsuario(Usuario usuarioatualizado, Long id){
@@ -128,11 +44,11 @@ public class UsuarioService {
         });
     }
 
-    public Object deletarUsuario(Long id){
+    public boolean deletarUsuario(Long id){
         if(usuarioRepository.existsById(id)){
             usuarioRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return true;
         }
-        return ResponseEntity.notFound();
+        return false;
     }
 }

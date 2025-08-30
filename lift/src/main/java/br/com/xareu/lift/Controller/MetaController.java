@@ -16,8 +16,8 @@ public class MetaController {
     private MetaService service;
 
     @PostMapping
-    public Meta criarmeta(@RequestBody Meta meta){
-        return service.criarMeta(meta);
+    public Meta criarmeta(@RequestBody Meta metaNova){
+        return service.criarMeta(metaNova);
     }
 
     @GetMapping
@@ -32,9 +32,9 @@ public class MetaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirMeta(@PathVariable Long id){
-        Object deletado = service.deletarMeta(id);
+        boolean deletado = service.deletarMeta(id);
 
-        if(deletado == ResponseEntity.notFound()){
+        if(deletado){
             return ResponseEntity.ok().body("A meta foi excluida com sucesso");
         }
         else{

@@ -15,8 +15,8 @@ public class CurtidaService {
         this.curtidaRepository = curtidaRepository;
     }
 
-    public Curtida criarcurtida(Curtida curtida){
-        return curtidaRepository.save(curtida);
+    public Curtida criarcurtida(Curtida curtidanova){
+        return curtidaRepository.save(curtidanova);
     }
 
     public List<Curtida> getAll(){

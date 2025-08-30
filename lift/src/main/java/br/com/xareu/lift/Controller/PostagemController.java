@@ -15,21 +15,21 @@ public class PostagemController {
     @Autowired
     private PostagemService service;
 
-    @GetMapping
-    public List<Postagem> getAll(){
-        return service.getAll();
-    }
-
     @PostMapping
     public Postagem criarPostagem(@RequestBody Postagem postagemNova){
         return service.criarPostagem(postagemNova);
     }
 
+    @GetMapping
+    public List<Postagem> getAll(){
+        return service.getAll();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarPostagem(@PathVariable Long id){
-        Object deletado = service.deletarPostagem(id);
+        boolean deletado = service.deletarPostagem(id);
 
-        if (deletado == ResponseEntity.noContent().build()){
+        if (deletado){
             return ResponseEntity.ok().body("Postagem deletada com sucesso");
         }
         else{
