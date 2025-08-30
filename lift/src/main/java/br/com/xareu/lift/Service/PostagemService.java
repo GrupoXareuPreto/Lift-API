@@ -33,7 +33,7 @@ public class PostagemService {
                 postagem.getCurtidas().stream().map(curtida -> new CurtidaResumoDTO(
                         curtida.getId()
                 )).toList(),
-                postagem.get
+                postagem.getComentarios()
 
         )).toList();
     }
