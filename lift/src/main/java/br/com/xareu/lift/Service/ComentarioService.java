@@ -6,25 +6,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ComentarioService {
-    private ComentarioRepository comentarioRepository;
+    private ComentarioRepository repository;
 
     public ComentarioService(ComentarioRepository comentarioRepository){
-        this.comentarioRepository = comentarioRepository;
+        this.repository = comentarioRepository;
     }
 
-    public Comentario criarComentario(Comentario comentario){return comentarioRepository.save(comentario);}
+    public List<Comentario> getAll(){
+        return repository.findAll();
+    }
 
-    public Object deletarComentario(Long id){
-        if (comentarioRepository.existsById(id)){
-            comentarioRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+    public Comentario criarComentario(Comentario comentario){return repository.save(comentario);}
+
+    public boolean deletarComentario(Long id){
+        if (repository.existsById(id)){
+            repository.deleteById(id);
+            return true;
 
         }
-        return ResponseEntity.notFound();
+        return false;
     }
 
 }

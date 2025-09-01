@@ -9,29 +9,30 @@ import java.util.List;
 
 @Service
 public class CurtidaService {
-    private CurtidaRepository curtidaRepository;
+
+    private CurtidaRepository repository;
 
     public CurtidaService(CurtidaRepository curtidaRepository){
-        this.curtidaRepository = curtidaRepository;
+        this.repository = curtidaRepository;
     }
 
     public Curtida criarcurtida(Curtida curtidanova){
-        return curtidaRepository.save(curtidanova);
+        return repository.save(curtidanova);
     }
 
     public List<Curtida> getAll(){
-        return curtidaRepository.findAll();
+        return repository.findAll();
     }
 
     /*Curtida não pode ser editada*/
 
-    public Object excluirCurtida(Long id){
-        if(curtidaRepository.existsById(id)){
-            curtidaRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+    public boolean excluirCurtida(Long id){
+        if(repository.existsById(id)){
+            repository.deleteById(id);
+            return true;
         }
         else{
-            return ResponseEntity.notFound();
+            return false;
         }
     }
 }

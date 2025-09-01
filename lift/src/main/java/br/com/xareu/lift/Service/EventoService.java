@@ -1,9 +1,7 @@
 package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.Entity.Evento;
-import br.com.xareu.lift.Entity.Mensagem;
 import br.com.xareu.lift.Repository.EventoRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,20 +9,36 @@ import java.util.Optional;
 
 @Service
 public class EventoService {
-    private EventoRepository eventoRepository;
+    private EventoRepository repository;
 
-    public EventoService(EventoRepository eventoRepository){this.eventoRepository = eventoRepository;}
+    public EventoService(EventoRepository eventoRepository){this.repository = eventoRepository;}
 
-    public List<Evento> getall(Long id){
-        return eventoRepository.findAll();
+    public Evento criarEvento(Evento eventoNovo){
+        return repository.save(eventoNovo);
     }
 
-    public Object  deletarEvento(Long id){
-        if (eventoRepository.existsById(id)){
-            eventoRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+    public List<Evento> getAll(){
+        return repository.findAll();
+    }
 
+    public boolean  deletarEvento(Long id){
+        if (repository.existsById(id)){
+            repository.deleteById(id);
+            return true;
         }
-        return ResponseEntity.notFound();
+        return false;
+    }
+
+    public Optional<Evento> atualizarEvento(Evento atualizacao, Long id){
+        return repository.findById(id).map(eventoAtualizado -> {
+            eventoAtualizado.setAtividade(atualizacao.getAtividade());
+            eventoAtualizado.setDescricao(atualizacao.getDescricao());
+            eventoAtualizado.setLocalizacao(atualizacao.getLocalizacao());
+            eventoAtualizado.setDataInicio(atualizacao.getDataInicio());
+            eventoAtualizado.setDataFim(atualizacao.getDataFim());
+            eventoAtualizado.setTitulo(atualizacao.getTitulo());
+
+            return repository.save(eventoAtualizado);
+        });
     }
 }

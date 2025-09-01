@@ -1,7 +1,6 @@
 package br.com.xareu.lift.Controller;
 
 import br.com.xareu.lift.Entity.Mensagem;
-import br.com.xareu.lift.LiftApplication;
 import br.com.xareu.lift.Service.MensagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +13,28 @@ import java.util.List;
 public class MensagemController {
 
     @Autowired
-    private MensagemService mensagemService;
+    private MensagemService service;
 
     @PostMapping
     public Mensagem criarMensagem(@RequestBody Mensagem mensagemNova){
-        return mensagemService.criarMensagem(mensagemNova);
+        return service.criarMensagem(mensagemNova);
     }
 
     @GetMapping
     public List<Mensagem> getAll(){
-        return  mensagemService.getAll();
+        return  service.getAll();
     }
 
     /*Mensagem nao tem update*/
-    /*
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarMensagem(@PathVariable Long id){
-        return mensagemService.deletarMensagem(id);
+        if(service.deletarMensagem(id)){
+            return ResponseEntity.ok().body("mensagem apagada com sucesso!!");
+        }
+        else {
+            return  ResponseEntity.notFound().build();
+        }
     }
 
-     */
+
 }
