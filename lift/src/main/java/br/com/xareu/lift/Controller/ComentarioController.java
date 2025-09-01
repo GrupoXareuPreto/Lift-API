@@ -28,6 +28,11 @@ public class ComentarioController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deletarComentario(@PathVariable Long id){
-
+        if(service.deletarComentario(id)){
+            return ResponseEntity.ok().body("O comentario foi deletado com sucesso!!");
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
     }
 }
