@@ -28,10 +28,12 @@ public class Comentario {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonBackReference
     private Usuario autor;
 
     @ManyToOne
     @JoinColumn(name = "ID_POSTAGEM", nullable = false)
+    @JsonBackReference
     private Postagem postagem;
 
 }

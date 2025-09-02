@@ -20,6 +20,9 @@ public class Conversa {
     @Column(name = "ID_CONVERSA")
     private Long id;
 
+    @Column(name = "TX_TITULO")
+    private String titulo;
+
     @Column(name = "TX_Foto")
     private String foto;
 
@@ -27,9 +30,11 @@ public class Conversa {
     private String descricao;
 
     @OneToMany(mappedBy = "conversa")
+    @JsonManagedReference
     private List<Mensagem> mensagens;
 
     @ManyToMany(mappedBy = "conversas")
+    @JsonManagedReference
     private List<Usuario> integrantes;
 
 

@@ -39,9 +39,11 @@ public class Evento {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonBackReference
     private Usuario autor;
 
     @ManyToMany(mappedBy = "eventosParticipar")
+    @JsonManagedReference
     private List<Usuario> participantes;
 
 }

@@ -22,10 +22,12 @@ public class Curtida {
     /*private ... id_postagem*/
     @ManyToOne
     @JoinColumn(name = "ID_POSTAGEM", nullable = false)
+    @JsonBackReference
     private Postagem postagem;
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonBackReference
     private Usuario autor;
 
 }

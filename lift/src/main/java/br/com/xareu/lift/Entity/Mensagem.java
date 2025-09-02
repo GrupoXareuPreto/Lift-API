@@ -20,21 +20,27 @@ public class Mensagem {
     private Long  id;
 
     @Column(name = "DT_ENVIO")
-    private LocalDateTime dataEnvio;
+    private LocalDateTime dataEnvio = LocalDateTime.now();
+
+    @Column(name = "TX_CONTEUDO")
+    public String conteudo;
 
     @Column(name = "STATUS_MENSAGEM")
     @Enumerated(EnumType.STRING)
-    private StatusMensagemEnum status;
+    private StatusMensagemEnum status = StatusMensagemEnum.ENVIADA_NAO_RECEBIDA;
 
     @ManyToOne
     @JoinColumn(name = "ID_CONVERSA", nullable = false)
+    @JsonBackReference
     private Conversa conversa;
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonBackReference
     private Usuario autor;
 
     @OneToOne(mappedBy = "mensagem", cascade = CascadeType.ALL)
+    @JsonBackReference
     private Compartilhamento compartilhamento;
 
 }

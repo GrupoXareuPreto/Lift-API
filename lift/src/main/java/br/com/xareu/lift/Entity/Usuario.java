@@ -47,6 +47,7 @@ public class Usuario {
     private List<Postagem> postagens;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Curtida> curtidas;
 
     @OneToMany(mappedBy = "autor",  cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,9 +57,11 @@ public class Usuario {
     private List<Evento> eventosCriados;
 
     @OneToMany(mappedBy = "autor",   cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Mensagem> mensagens;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Compartilhamento> compartilhamentos;
 
     @ManyToMany

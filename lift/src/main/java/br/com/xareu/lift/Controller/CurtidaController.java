@@ -6,21 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/curtida")
 public class CurtidaController {
 
     @Autowired
-    private CurtidaService curtidaService;
+    private CurtidaService service;
 
     @PostMapping
     public Curtida criarCurtida(@RequestBody Curtida curtidanova){
-        return curtidaService.criarcurtida(curtidanova);
+        return service.criarcurtida(curtidanova);
     }
+
+    @GetMapping
+    public List<Curtida> listarTodas(){
+        return service.getAll();
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarCurtida(@PathVariable Long id){
-        Object deletado = curtidaService.excluirCurtida(id);
+        Object deletado = service.excluirCurtida(id);
 
         if(deletado == ResponseEntity.notFound()){
             return ResponseEntity.ok().body("A curtida foi deletada");
