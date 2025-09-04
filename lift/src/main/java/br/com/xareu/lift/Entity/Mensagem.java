@@ -31,16 +31,13 @@ public class Mensagem {
 
     @ManyToOne
     @JoinColumn(name = "ID_CONVERSA", nullable = false)
-    @JsonBackReference
     private Conversa conversa;
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @JsonBackReference
     private Usuario autor;
 
     @OneToOne(mappedBy = "mensagem", cascade = CascadeType.ALL)
-    @JsonBackReference
     private Compartilhamento compartilhamento;
 
 }

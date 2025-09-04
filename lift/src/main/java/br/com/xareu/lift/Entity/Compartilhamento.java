@@ -25,12 +25,10 @@ public class Compartilhamento {
 
     @ManyToOne
     @JoinColumn(name = "ID_POSTAGEM", nullable = false)
-    @JsonManagedReference
     private Postagem postagem;
 
     @OneToOne
     @JoinColumn(name = "MENSAGEM", nullable = false)
-    @JsonManagedReference
     private Mensagem mensagem;
 
 }

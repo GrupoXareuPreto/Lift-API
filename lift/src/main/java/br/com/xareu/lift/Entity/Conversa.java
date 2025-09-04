@@ -30,11 +30,9 @@ public class Conversa {
     private String descricao;
 
     @OneToMany(mappedBy = "conversa")
-    @JsonManagedReference
     private List<Mensagem> mensagens;
 
     @ManyToMany(mappedBy = "conversas")
-    @JsonManagedReference
     private List<Usuario> integrantes;
 
 
