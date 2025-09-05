@@ -1,44 +1,88 @@
 package br.com.xareu.lift.Service;
 
+import br.com.xareu.lift.DTO.UsuarioRequestDTO;
+import br.com.xareu.lift.DTO.UsuarioResponseDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
 
-    private UsuarioRepository repository;
+    private final UsuarioRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.repository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    private UsuarioResponseDTO toResponseDTO(Usuario usuario){
+        if(usuario == null){
+            return null;
+        }
+        return new UsuarioResponseDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getBiografia(),
+                usuario.getEmail(),
+                usuario.getNomeUsuario()
+        );
+    }
+
+    private Usuario toEntity(UsuarioRequestDTO dto){
+        Usuario usuario = new Usuario();
+        usuario.setNome(dto.getNome());
+        usuario.setBiografia(dto.getBiografia());
+        usuario.setEmail(dto.getEmail());
+        usuario.setNomeUsuario(dto.getNomeUsuario());
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
+        return usuario;
     }
 
     /*crud*/
-    public List<Usuario> getAll() {
-        return repository.findAll();
+    public List<UsuarioResponseDTO> getAll() {
+        return repository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
     }
 
-    public Usuario criarUsuario(Usuario usuario){
-        return repository.save(usuario);
+    public UsuarioResponseDTO criarUsuario(UsuarioRequestDTO usuarioDTO){
+        if (repository.findByEmail(usuarioDTO.getEmail()).isPresent()){
+            throw  new IllegalArgumentException("Email já existe");
+        }
+        if(repository.findByNomeUsuario(usuarioDTO.getNomeUsuario()).isPresent()){
+            throw new IllegalArgumentException("Nome de Usuario já existe");
+        }
+
+        Usuario usuario = toEntity(usuarioDTO);
+        Usuario usuarioSalvo = repository.save(usuario);
+        return toResponseDTO(usuarioSalvo);
     }
 
-    public Usuario buscarPorId(Long id){
-            return repository.findById(id).orElse(null);
+    public UsuarioResponseDTO buscarPorId(Long id){
+         return repository.findById(id).map(this :: toResponseDTO).orElse(null);
     }
 
-    public Optional<Usuario> atualizarUsuario(Usuario usuarioatualizado, Long id){
-        return repository.findById(id).map(usuario -> {
-            usuario.setNome(usuarioatualizado.getNome());
-            usuario.setEmail(usuarioatualizado.getEmail());
-            usuario.setSenha(usuarioatualizado.getSenha());
-            usuario.setNomeUsuario(usuarioatualizado.getNomeUsuario());
-            usuario.setBiografia(usuarioatualizado.getBiografia());
+    public Optional<UsuarioResponseDTO> atualizarUsuario(UsuarioRequestDTO usuarioatualizadoDTO, Long id){
+        repository.findById(id).map(usarioExistente -> {
+            usarioExistente.setNome(usuarioatualizadoDTO.getNome());
+            usarioExistente.setNomeUsuario(usuarioatualizadoDTO.getNomeUsuario());
+            usarioExistente.setBiografia(usuarioatualizadoDTO.getBiografia());
+            usarioExistente.setEmail(usuarioatualizadoDTO.getEmail());
 
-            return repository.save(usuario);
+            if(usuarioatualizadoDTO.getSenha() != null && !usuarioatualizadoDTO.getSenha().isEmpty()){
+                usarioExistente.setSenha(passwordEncoder.encode(usuarioatualizadoDTO.getSenha()));
+            }
+
+            Usuario usuarioupdated = repository.save(usarioExistente);
+            return toResponseDTO(usuarioupdated);
         });
+        return Optional.empty();
+
     }
 
     public boolean deletarUsuario(Long id){
