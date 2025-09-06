@@ -2,10 +2,7 @@ package br.com.xareu.lift.Entity;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDate;
@@ -16,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "TBL_POSTAGEM")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Postagem {
 
     @Id

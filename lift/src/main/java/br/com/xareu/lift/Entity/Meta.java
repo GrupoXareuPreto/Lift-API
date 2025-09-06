@@ -6,12 +6,16 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Table(name = "TBL_META")
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Meta {
 
     @Id
@@ -26,11 +30,11 @@ public class Meta {
     @Column(name = "TX_NOME", nullable = false)
     private String nome;
 
-    @Column(name = "TX_DESCRICAO")
-    private String descricao;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS_META", nullable = false)
     private StatusMetaEnum status = StatusMetaEnum.PENDENTE;
+
+    @Column(name = "BL_PUBLICA", nullable = false)
+    private boolean publica = false;
 
 }

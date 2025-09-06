@@ -28,7 +28,6 @@ public class MetaService {
         return repository.findById(id).map(metaBanco -> {
             metaBanco.setNome(metaAtualizada.getNome());
             metaBanco.setStatus(metaAtualizada.getStatus());
-            metaBanco.setDescricao(metaAtualizada.getDescricao());
 
             return repository.save(metaBanco);
         });

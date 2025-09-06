@@ -11,6 +11,7 @@ public class PostagemService {
 
     private PostagemRepository repository;
 
+
     public PostagemService(PostagemRepository postagemRepository) {
         this.repository = postagemRepository;
     }
