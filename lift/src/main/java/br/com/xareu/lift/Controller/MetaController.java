@@ -1,8 +1,11 @@
 package br.com.xareu.lift.Controller;
 
-import br.com.xareu.lift.Entity.Meta;
+import br.com.xareu.lift.DTO.MetaRequestDTO;
+import br.com.xareu.lift.DTO.MetaResponseDTO;
 import br.com.xareu.lift.Service.MetaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,19 +18,26 @@ public class MetaController {
     @Autowired
     private MetaService service;
 
-    @PostMapping
-    public Meta criarmeta(@RequestBody Meta metaNova){
-        return service.criarMeta(metaNova);
+    @PostMapping("/usuario/{autorId}")
+    public ResponseEntity<MetaResponseDTO> criarMeta(@Valid @RequestBody MetaRequestDTO metaNova, @PathVariable Long autorId){
+        try {
+            MetaResponseDTO novaMeta = service.criarMeta(metaNova, autorId);
+            return new ResponseEntity<>(novaMeta, HttpStatus.CREATED);
+        }
+        catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @GetMapping
-    public List<Meta> getAll(){
-        return service.getAll();
+    public ResponseEntity<List<MetaResponseDTO>> getAll(){
+        List<MetaResponseDTO> metas = service.getAll();
+        return ResponseEntity.ok(metas);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarMeta(@RequestBody Meta meta, @PathVariable Long id ){
-        return service.atualizarMeta(meta, id).map(ResponseEntity ::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<MetaResponseDTO> atualizarMeta(@Valid @RequestBody MetaRequestDTO metaDTO, @PathVariable Long id ){
+        return service.atualizarMeta(metaDTO, id).map(ResponseEntity :: ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
@@ -35,7 +45,7 @@ public class MetaController {
         boolean deletado = service.deletarMeta(id);
 
         if(deletado){
-            return ResponseEntity.ok().body("A meta foi excluida com sucesso");
+            return ResponseEntity.noContent().build();
         }
         else{
             return ResponseEntity.notFound().build();

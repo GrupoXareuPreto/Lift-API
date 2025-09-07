@@ -1,14 +1,13 @@
 package br.com.xareu.lift.Entity;
 
 import br.com.xareu.lift.Enum.StatusMetaEnum;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -27,7 +26,7 @@ public class Meta {
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuario autor/*Dono das metas*/;
 
-    @Column(name = "TX_NOME", nullable = false)
+    @Column(name = "TX_NOME", nullable = false, unique = true)
     private String nome;
 
     @Enumerated(EnumType.STRING)
@@ -36,5 +35,11 @@ public class Meta {
 
     @Column(name = "BL_PUBLICA", nullable = false)
     private boolean publica = false;
+
+    @Column(name = "DT_INICIO", nullable = false)
+    private LocalDateTime dataInicio = LocalDateTime.now();
+
+    @Column(name = "DT_FIM")
+    private LocalDate dataFim;
 
 }
