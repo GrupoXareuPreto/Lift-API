@@ -18,13 +18,12 @@ public class MetaRequestDTO {
     @NotBlank(message = "A meta deve conter um nome")
     private String nome;
 
-    @NotNull(message = "O  status de visibilidade da meta é obrigatório")
     private boolean publica;
 
+    private StatusMetaEnum status;
 
-    private StatusMetaEnum status = StatusMetaEnum.PENDENTE;
+    private LocalDateTime dataInicio;
 
-    private LocalDateTime dataInicio = LocalDateTime.now();
-
+    @NotBlank(message = "A data final deve ser definida")
     private LocalDate dataFim;
 }

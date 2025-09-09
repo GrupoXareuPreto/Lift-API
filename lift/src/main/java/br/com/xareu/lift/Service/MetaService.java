@@ -29,11 +29,10 @@ public class MetaService {
         }
         else {
             return new MetaResponseDTO(
-                    meta.getId(),
                     meta.getNome(),
                     meta.isPublica(),
-                    meta.getAutor().getId(),
-                    meta.getAutor().getNomeUsuario()
+                    meta.getStatus(),
+                    meta.getDataFim()
             );
         }
     }

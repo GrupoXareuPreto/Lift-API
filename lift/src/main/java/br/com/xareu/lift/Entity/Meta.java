@@ -34,7 +34,7 @@ public class Meta {
     private StatusMetaEnum status = StatusMetaEnum.PENDENTE;
 
     @Column(name = "BL_PUBLICA", nullable = false)
-    private boolean publica = false;
+    private boolean publica = true;
 
     @Column(name = "DT_INICIO", nullable = false)
     private LocalDateTime dataInicio = LocalDateTime.now();

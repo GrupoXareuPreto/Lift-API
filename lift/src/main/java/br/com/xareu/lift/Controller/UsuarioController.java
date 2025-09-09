@@ -42,6 +42,7 @@ public class    UsuarioController {
          }
     }
 
+
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> criarUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioDTO){
         try{

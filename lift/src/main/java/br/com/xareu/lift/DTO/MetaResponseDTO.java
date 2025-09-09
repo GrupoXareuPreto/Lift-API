@@ -1,18 +1,20 @@
 package br.com.xareu.lift.DTO;
 
+import br.com.xareu.lift.Enum.StatusMetaEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class MetaResponseDTO {
 
-    private Long id;
     private String nome;
     private boolean publica;
-    private Long autorId;
-    private String autorNomeUsuario;
+    private StatusMetaEnum status;
+    private LocalDate dataFim;
 }
