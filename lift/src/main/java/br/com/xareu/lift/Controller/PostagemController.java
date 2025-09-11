@@ -1,5 +1,6 @@
 package br.com.xareu.lift.Controller;
 
+import br.com.xareu.lift.DTO.PostagemResponseDTO;
 import br.com.xareu.lift.Entity.Postagem;
 import br.com.xareu.lift.Service.PostagemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class PostagemController {
     @PostMapping
     public Postagem criarPostagem(@RequestBody Postagem postagemNova){
         return service.criarPostagem(postagemNova);
+    }
+
+    @GetMapping("/Feed")
+    public ResponseEntity<List<PostagemResponseDTO>> getOnFeed(){
+
     }
 
     @GetMapping

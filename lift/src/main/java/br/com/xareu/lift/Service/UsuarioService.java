@@ -21,13 +21,13 @@ public class UsuarioService {
         this.repository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*Parte de DTOs*/
     private UsuarioResponseDTO toResponseDTO(Usuario usuario){
         if(usuario == null){
             return null;
         }
         return new UsuarioResponseDTO(
-                usuario.getId(),
                 usuario.getNome(),
                 usuario.getBiografia(),
                 usuario.getEmail(),
@@ -44,6 +44,7 @@ public class UsuarioService {
         usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         return usuario;
     }
+/*--------------------------------------------------------------------------------------------------------------------*/
 
     /*crud*/
     public List<UsuarioResponseDTO> getAll() {

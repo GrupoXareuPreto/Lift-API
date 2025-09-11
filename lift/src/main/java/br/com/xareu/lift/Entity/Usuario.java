@@ -34,6 +34,9 @@ public class Usuario {
     @Column(name = "TX_NOMEUSUARIO" , nullable = false, unique = true)
     private String nomeUsuario;
 
+    @Column(name = "TX_FOTO_PERFIL")
+    private String fotoPerfil;
+
 
 // =========================================================================================
 // Ver com a Marion

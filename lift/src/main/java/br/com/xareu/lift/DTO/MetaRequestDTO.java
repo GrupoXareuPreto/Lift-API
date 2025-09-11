@@ -1,6 +1,7 @@
 package br.com.xareu.lift.DTO;
 
 import br.com.xareu.lift.Enum.StatusMetaEnum;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class MetaRequestDTO {
 
     private LocalDateTime dataInicio;
 
-    @NotBlank(message = "A data final deve ser definida")
+    @NotNull(message = "A data final deve ser definida")
+    @Future(message = "A data deve estar sempre no futuro")
     private LocalDate dataFim;
 }
