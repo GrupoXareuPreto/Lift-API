@@ -2,6 +2,7 @@ package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.DTO.UsuarioRequestDTO;
 import br.com.xareu.lift.DTO.UsuarioResponseDTO;
+import br.com.xareu.lift.DTO.UsuarioResumoDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +34,19 @@ public class UsuarioService {
                 usuario.getEmail(),
                 usuario.getNomeUsuario()
         );
+    }
+
+    public UsuarioResumoDTO toUsuarioResumoDTO(Usuario usuario){
+        if(usuario == null){
+            return null;
+        }
+        else {
+            return new UsuarioResumoDTO(
+                    usuario.getFotoPerfil(),
+                    usuario.getNome(),
+                    usuario.getNomeUsuario()
+            );
+        }
     }
 
     private Usuario toEntity(UsuarioRequestDTO dto){

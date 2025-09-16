@@ -22,7 +22,8 @@ public class MetaService {
         this.metaRepository = metaRepository;
         this.usuarioRepository = usuarioRepository;
     }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Parte de DTOs */
     private MetaResponseDTO toResponseDTO(Meta meta){
         if(meta == null){
             return null;
@@ -47,6 +48,7 @@ public class MetaService {
 
         return meta;
     }
+/*--------------------------------------------------------------------------------------------------------------------*/
 
     public MetaResponseDTO criarMeta(MetaRequestDTO metaDTO, Long autorId){
         Usuario autor = usuarioRepository.findById(autorId).orElseThrow(() -> new IllegalArgumentException("Autor não encontrado"  + autorId));

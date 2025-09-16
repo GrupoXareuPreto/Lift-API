@@ -7,10 +7,8 @@ import br.com.xareu.lift.Entity.Postagem;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.PostagemRepository;
 import br.com.xareu.lift.Repository.UsuarioRepository;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +17,13 @@ public class PostagemService {
 
     private PostagemRepository repository;
     private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
-    public PostagemService(PostagemRepository postagemRepository) {
+    public PostagemService(PostagemRepository postagemRepository, UsuarioRepository usuarioRepository, UsuarioService usuarioService)
+    {
         this.repository = postagemRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.usuarioService = usuarioService;
     }
 /*--------------------------------------------------------------------------------------------------------------------*/
 /*Parte de DTOs*/
@@ -33,8 +35,7 @@ public class PostagemService {
         }
         else {
             return new PostagemResponseDTO(
-                    new UsuarioResumoDTO(postagem.getAutor()),
-                    /*<--- Deve ser do tipo: UsuarioResumoDTO*/
+                    usuarioService.toUsuarioResumoDTO(postagem.getAutor()),
                     postagem.getMidia(),
                     postagem.getTitulo(),
                     postagem.getDescricao(),
@@ -49,17 +50,25 @@ public class PostagemService {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+    public PostagemResponseDTO criarPostagem (PostagemRequestDTO postagemDTO, Long autorId){
+        Usuario autor = usuarioRepository.findById(autorId).orElseThrow(() -> new IllegalArgumentException("Autor nao encontrado" + autorId));
+
+        Postagem postagem = new Postagem();
+        postagem.setMidia(postagemDTO.getMidia());
+        postagem.setTitulo(postagemDTO.getTitulo());
+        postagem.setDescricao(postagemDTO.getDescricao());
+        postagem.setAutor(autor);
+
+        Postagem postagemNova = repository.save(postagem);
+        return toResponseDTO(postagemNova);
+    }
+
+
+
     public List<PostagemResponseDTO> getFeed(){
       return repository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
     }
 
-
-    public PostagemResponseDTO criarPostagem (PostagemRequestDTO postagemNova, Long autorId){
-        Usuario autor = usuarioRepository.findById(autorId).orElseThrow(() -> new IllegalArgumentException("Autor nao encontrado" + autorId));
-
-        Postagem postagem = new Postagem();
-        postagem.setMidia(postagemNova.getMidia());
-    }
 
     public boolean deletarPostagem(Long id){
         if(repository.existsById(id)){

@@ -23,8 +23,8 @@ public class PostagemController {
     @PostMapping("usuario/{idAutor}")
     public ResponseEntity<PostagemResponseDTO> criarPostagem(@Valid @RequestBody PostagemRequestDTO postagemNova, @PathVariable Long idAutor){
         try{
-            PostagemResponseDTO postagemNova = service.criarPostagem(postagemNova, idAutor);
-            return new ResponseEntity<>(postagemNova, HttpStatus.CREATED);
+            PostagemResponseDTO postagem = service.criarPostagem(postagemNova, idAutor);
+            return new ResponseEntity<>(postagem, HttpStatus.CREATED);
         }
         catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

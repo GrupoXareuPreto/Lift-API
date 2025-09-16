@@ -22,5 +22,4 @@ public class PostagemRequestDTO {
 
     private String descricao;
 
-    private Evento evento;
 }
