@@ -2,7 +2,6 @@ package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.DTO.PostagemRequestDTO;
 import br.com.xareu.lift.DTO.PostagemResponseDTO;
-import br.com.xareu.lift.DTO.UsuarioResumoDTO;
 import br.com.xareu.lift.Entity.Postagem;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.PostagemRepository;
@@ -35,7 +34,7 @@ public class PostagemService {
         }
         else {
             return new PostagemResponseDTO(
-                    usuarioService.toUsuarioResumoDTO(postagem.getAutor()),
+                    usuarioService.toUsuarioCardPostagemDTO(postagem.getAutor()),
                     postagem.getMidia(),
                     postagem.getTitulo(),
                     postagem.getDescricao(),

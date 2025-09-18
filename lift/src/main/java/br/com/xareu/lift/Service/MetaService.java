@@ -24,6 +24,7 @@ public class MetaService {
     }
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Parte de DTOs */
+
     private MetaResponseDTO toResponseDTO(Meta meta){
         if(meta == null){
             return null;
@@ -38,16 +39,6 @@ public class MetaService {
         }
     }
 
-    private Meta toEntity(MetaRequestDTO dto){
-        Meta meta = new Meta();
-        meta.setNome(dto.getNome());
-        meta.setPublica(dto.isPublica());
-        meta.setStatus(dto.getStatus());
-        meta.setDataInicio(dto.getDataInicio());
-        meta.setDataFim(dto.getDataFim());
-
-        return meta;
-    }
 /*--------------------------------------------------------------------------------------------------------------------*/
 
     public MetaResponseDTO criarMeta(MetaRequestDTO metaDTO, Long autorId){
@@ -57,6 +48,7 @@ public class MetaService {
         meta.setNome(metaDTO.getNome());
         meta.setPublica(metaDTO.isPublica());
         meta.setAutor(autor);
+        meta.setDataFim(metaDTO.getDataFim());
 
         Meta savedMeta = metaRepository.save(meta);
         return toResponseDTO(savedMeta);
