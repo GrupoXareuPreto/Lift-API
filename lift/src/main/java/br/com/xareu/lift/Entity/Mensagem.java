@@ -38,6 +38,6 @@ public class Mensagem {
     private Usuario autor;
 
     @OneToOne(mappedBy = "mensagem", cascade = CascadeType.ALL)
-    private Compartilhamento compartilhamento;
+    private Compartilhamento compartilhamento = null;
 
 }

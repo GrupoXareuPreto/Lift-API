@@ -20,15 +20,19 @@ public class Compartilhamento {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_USUARIO", nullable = false)
-    private Usuario autor;
+    @JoinColumn(name = "ID_USUARIO_REMENTENTE", nullable = false)
+    private Usuario rementente;
+    
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO_DESTINATARIO", nullable = false)
+    private Usuario destinatario;
 
     @ManyToOne
     @JoinColumn(name = "ID_POSTAGEM", nullable = false)
     private Postagem postagem;
 
     @OneToOne
-    @JoinColumn(name = "MENSAGEM", nullable = false)
+    @JoinColumn(name = "ID_MENSAGEM", nullable = false)
     private Mensagem mensagem;
 
 }
