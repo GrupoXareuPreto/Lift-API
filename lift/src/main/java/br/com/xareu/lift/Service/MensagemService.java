@@ -60,10 +60,9 @@ public class MensagemService {
     public List<MensagemResponseDTO> listarMensagensConversa(Long IdConversa) {
         Conversa conversa = conversaRepository.findById(IdConversa).orElseThrow(() -> new IllegalArgumentException("Conversa não encontrada" + IdConversa));
 
-        List<Mensagem> mensagens = repository.findByConversa(conversa);
+        List<Mensagem> mensagens = (List<Mensagem>) repository.findByConversa(IdConversa).get();
 
         return mensagens.stream().map(this :: toResponseDTO).collect(Collectors.toList());
-
     }
 
 

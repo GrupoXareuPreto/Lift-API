@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface MensagemRepository extends JpaRepository<Mensagem, Long> {
 
-    List<Mensagem> findByConversa(Conversa conversa);
+    Optional<Mensagem> findByConversa(Long id);
 }
