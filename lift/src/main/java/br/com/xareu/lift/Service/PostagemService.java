@@ -41,7 +41,7 @@ public class PostagemService {
                     postagem.getDataPublicacao(),
                     postagem.getCurtidas() != null ? postagem.getCurtidas().size() : 0,
                     postagem.getComentarios() != null ? postagem.getComentarios().size() : 0,
-                    postagem.getCompartilhamentos() != null ? postagem.getCompartilhamentos().size() : 0
+                    postagem.getCompartilhamentos()
             );
         }
     }
