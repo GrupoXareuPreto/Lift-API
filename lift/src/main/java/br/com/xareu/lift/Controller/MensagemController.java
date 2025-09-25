@@ -18,7 +18,7 @@ public class MensagemController {
     @Autowired
     private MensagemService service;
 
-    @PostMapping("/autor/{autorId}/conversa/{conversaId}")
+    @PostMapping("/usuario/{autorId}/conversa/{conversaId}")
     public ResponseEntity<MensagemResponseDTO> criarMensagem(@Valid @RequestBody MensagemRequestDTO mensagemDTO,@PathVariable Long autorId, @PathVariable Long conversaId){
         try{
             MensagemResponseDTO novaMensagem = service.criarMensagem(mensagemDTO, autorId, conversaId);
@@ -29,7 +29,7 @@ public class MensagemController {
         }
     }
 
-    @GetMapping("/conversa/{ConversaId}")
+    @GetMapping("/conversa/{conversaId}")
     public ResponseEntity<List<MensagemResponseDTO>> ListarMensagensConversa(@PathVariable Long conversaId){
         List<MensagemResponseDTO> mensagens = service.listarMensagensConversa(conversaId);
         return ResponseEntity.ok(mensagens);

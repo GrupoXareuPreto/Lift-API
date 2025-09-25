@@ -23,8 +23,8 @@ public class UsuarioService {
         this.repository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
-/*--------------------------------------------------------------------------------------------------------------------*/
-/*Parte de DTOs*/
+    /*--------------------------------------------------------------------------------------------------------------------*/
+    /*Parte de DTOs*/
     private UsuarioResponseDTO toResponseDTO(Usuario usuario){
         if(usuario == null){
             return null;
