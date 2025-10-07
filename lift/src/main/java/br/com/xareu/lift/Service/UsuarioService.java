@@ -1,9 +1,6 @@
 package br.com.xareu.lift.Service;
 
-import br.com.xareu.lift.DTO.Usuario.UsuarioResponseCardConversaDTO;
-import br.com.xareu.lift.DTO.Usuario.UsuarioRequestDTO;
-import br.com.xareu.lift.DTO.Usuario.UsuarioResponseDTO;
-import br.com.xareu.lift.DTO.Usuario.UsuarioResponseCardPostagemDTO;
+import br.com.xareu.lift.DTO.Usuario.*;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,12 +34,12 @@ public class UsuarioService {
         );
     }
 
-    public UsuarioResponseCardPostagemDTO toUsuarioCardPostagemDTO(Usuario usuario){
+    public UsuarioResponseCardPostagemEventoDTO toUsuarioCardPostagemEventoDTO(Usuario usuario){
         if(usuario == null){
             return null;
         }
         else {
-            return new UsuarioResponseCardPostagemDTO(
+            return new UsuarioResponseCardPostagemEventoDTO(
                     usuario.getFotoPerfil(),
                     usuario.getNome(),
                     usuario.getNomeUsuario()
@@ -56,9 +53,23 @@ public class UsuarioService {
         }
         else {
             return new UsuarioResponseCardConversaDTO(
+                    usuario.getId(),
                     usuario.getFotoPerfil(),
                     usuario.getNome()
             );
+        }
+    }
+
+    public UsuarioResponseComentarioDTO toUsuarioResponseComentarioDTO(Usuario usuario){
+        if(usuario == null){
+            return null;
+        }
+        else {
+            return new UsuarioResponseComentarioDTO(
+                    usuario.getFotoPerfil(),
+                    usuario.getNomeUsuario()
+            );
+
         }
     }
 
@@ -119,5 +130,24 @@ public class UsuarioService {
             return true;
         }
         return false;
+    }
+
+    public Optional<UsuarioResponseDTO> autenticarUsuario(UsuarioRequestAutenticarDTO credenciais){
+        try{
+            Optional<Usuario> usuarioOptional = repository.findByNomeUsuario(credenciais.getNomeUsuario());
+            if (usuarioOptional.isEmpty()){
+                return Optional.empty();
+            }
+            Usuario usuario = usuarioOptional.get();
+            if(passwordEncoder.matches(credenciais.getSenha(), usuario.getSenha())){
+                return Optional.of(toResponseDTO(usuario));
+            }
+            return Optional.empty();
+
+        }catch (Exception ex){
+            System.out.println("ERRO"+ex.getMessage());
+            return Optional.empty();
+        }
+
     }
 }

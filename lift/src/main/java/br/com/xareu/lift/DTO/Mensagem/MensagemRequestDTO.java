@@ -1,6 +1,6 @@
 package br.com.xareu.lift.DTO.Mensagem;
 
-import br.com.xareu.lift.DTO.Postagem.PostagemResponseDTO;
+import br.com.xareu.lift.DTO.Postagem.PostagemResponseFeedDTO;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,6 @@ public class MensagemRequestDTO {
     @NotBlank(message = "O conteudo da mensagem deve ser valorado")
     private String conteudo;
 
-    private PostagemResponseDTO postagem;
+    private PostagemResponseFeedDTO postagem;
 
 }

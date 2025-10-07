@@ -1,5 +1,6 @@
 package br.com.xareu.lift.Controller;
 
+import br.com.xareu.lift.DTO.Usuario.UsuarioRequestAutenticarDTO;
 import br.com.xareu.lift.DTO.Usuario.UsuarioRequestDTO;
 import br.com.xareu.lift.DTO.Usuario.UsuarioResponseDTO;
 import br.com.xareu.lift.Service.UsuarioService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
@@ -70,4 +72,15 @@ public class    UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/autenticar")
+    public ResponseEntity<UsuarioResponseDTO> autenticarUsuario(@Valid @RequestBody UsuarioRequestAutenticarDTO credenciais){
+        Optional<UsuarioResponseDTO> usuario = service.autenticarUsuario(credenciais);
+        if (usuario.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }else {
+            return ResponseEntity.ok(usuario.get());
+        }
+    }
+
 }

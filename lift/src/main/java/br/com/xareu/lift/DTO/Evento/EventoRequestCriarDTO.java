@@ -17,6 +17,9 @@ public class EventoRequestCriarDTO {
     @NotBlank(message = "O titulo é obrigatório")
     private String titulo;
 
+    @NotBlank(message = "O evento deve conter uma midia")
+    private String midia;
+
     private String descricao;
 
     @NotBlank(message = "A Localização do evento é obrigatoria")

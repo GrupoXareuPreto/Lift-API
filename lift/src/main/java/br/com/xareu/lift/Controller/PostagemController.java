@@ -1,7 +1,7 @@
 package br.com.xareu.lift.Controller;
 
 import br.com.xareu.lift.DTO.Postagem.PostagemRequestDTO;
-import br.com.xareu.lift.DTO.Postagem.PostagemResponseDTO;
+import br.com.xareu.lift.DTO.Postagem.PostagemResponseFeedDTO;
 import br.com.xareu.lift.Service.PostagemService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ public class PostagemController {
     private PostagemService service;
 
     @PostMapping("usuario/{idAutor}")
-    public ResponseEntity<PostagemResponseDTO> criarPostagem(@Valid @RequestBody PostagemRequestDTO postagemNova, @PathVariable Long idAutor){
+    public ResponseEntity<PostagemResponseFeedDTO> criarPostagem(@Valid @RequestBody PostagemRequestDTO postagemNova, @PathVariable Long idAutor){
         try{
-            PostagemResponseDTO postagem = service.criarPostagem(postagemNova, idAutor);
+            PostagemResponseFeedDTO postagem = service.criarPostagem(postagemNova, idAutor);
             return new ResponseEntity<>(postagem, HttpStatus.CREATED);
         }
         catch (IllegalArgumentException e){
@@ -30,7 +30,7 @@ public class PostagemController {
     }
 
     @GetMapping("/Feed")
-    public List<PostagemResponseDTO> getAll(){
+    public List<PostagemResponseFeedDTO> getAll(){
         return service.getFeed();
     }
 

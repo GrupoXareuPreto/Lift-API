@@ -1,7 +1,7 @@
 package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.DTO.Postagem.PostagemRequestDTO;
-import br.com.xareu.lift.DTO.Postagem.PostagemResponseDTO;
+import br.com.xareu.lift.DTO.Postagem.PostagemResponseFeedDTO;
 import br.com.xareu.lift.Entity.Postagem;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.PostagemRepository;
@@ -28,16 +28,15 @@ public class PostagemService {
 /*Parte de DTOs*/
 
 
-    private PostagemResponseDTO toResponseDTO(Postagem postagem){
+    private PostagemResponseFeedDTO toResponseDTO(Postagem postagem){
         if(postagem == null){
             return null;
         }
         else {
-            return new PostagemResponseDTO(
-                    usuarioService.toUsuarioCardPostagemDTO(postagem.getAutor()),
+            return new PostagemResponseFeedDTO(
+                    usuarioService.toUsuarioCardPostagemEventoDTO(postagem.getAutor()),
                     postagem.getMidia(),
                     postagem.getTitulo(),
-                    postagem.getDescricao(),
                     postagem.getDataPublicacao(),
                     postagem.getCurtidas() != null ? postagem.getCurtidas().size() : 0,
                     postagem.getComentarios() != null ? postagem.getComentarios().size() : 0,
@@ -49,7 +48,7 @@ public class PostagemService {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-    public PostagemResponseDTO criarPostagem (PostagemRequestDTO postagemDTO, Long autorId){
+    public PostagemResponseFeedDTO criarPostagem (PostagemRequestDTO postagemDTO, Long autorId){
         Usuario autor = usuarioRepository.findById(autorId).orElseThrow(() -> new IllegalArgumentException("Autor nao encontrado" + autorId));
 
         Postagem postagem = new Postagem();
@@ -64,7 +63,7 @@ public class PostagemService {
 
 
 
-    public List<PostagemResponseDTO> getFeed(){
+    public List<PostagemResponseFeedDTO> getFeed(){
       return repository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
     }
 
