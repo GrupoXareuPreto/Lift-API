@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EvenyoResponseDTO {
-
-
+public class EventoResponseDTO {
+    private String a;
 }

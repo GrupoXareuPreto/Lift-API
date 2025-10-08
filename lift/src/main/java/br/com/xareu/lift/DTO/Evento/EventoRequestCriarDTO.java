@@ -23,10 +23,10 @@ public class EventoRequestCriarDTO {
     private String descricao;
 
     @NotBlank(message = "A Localização do evento é obrigatoria")
-    private String Localizacao;
+    private String localizacao;
 
     @NotBlank(message = "A data de inicio é obrigatoria")
-    @FutureOrPresent(message = "A data de inicio deve estar sempre no fututo ou no presente")
+    @Future(message = "A data de inicio deve estar sempre no fututo")
     private LocalDateTime dataInicio;
 
     @Future(message = "A daat final deve estar sempre no futuro")

@@ -6,7 +6,9 @@ import br.com.xareu.lift.Entity.Postagem;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.PostagemRepository;
 import br.com.xareu.lift.Repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,33 +50,41 @@ public class PostagemService {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-    public PostagemResponseFeedDTO criarPostagem (PostagemRequestDTO postagemDTO, Long autorId){
-        Usuario autor = usuarioRepository.findById(autorId).orElseThrow(() -> new IllegalArgumentException("Autor nao encontrado" + autorId));
+    @Autowired
+    private PostagemRepository postagemRepository;
 
+    // MELHORIA 1: O metodo agora recebe o objeto Usuario, não mais um ID.
+    // Não há necessidade de buscar o usuário no banco, ele já veio autenticado.
+    @Transactional
+    public PostagemResponseFeedDTO createPostagem(PostagemRequestDTO dto, Usuario autor) {
         Postagem postagem = new Postagem();
-        postagem.setMidia(postagemDTO.getMidia());
-        postagem.setTitulo(postagemDTO.getTitulo());
-        postagem.setDescricao(postagemDTO.getDescricao());
-        postagem.setAutor(autor);
+        // ... seta os dados da postagem a partir do DTO (título, conteúdo, etc.) ...
+        postagem.setAutor(autor); // Define o autor como o usuário que está logado
 
-        Postagem postagemNova = repository.save(postagem);
-        return toResponseDTO(postagemNova);
+        Postagem savedPostagem = postagemRepository.save(postagem);
+        return toResponseDTO(savedPostagem); // Supondo que você tenha um método de conversão
     }
 
+    // MELHORIA 2: O metodo agora verifica se o usuário logado é o dono da postagem.
+    @Transactional
+    public void deletePostagem(Long postagemId, Usuario usuarioLogado) throws IllegalAccessException {
+        // Busca a postagem no banco
+        Postagem postagem = postagemRepository.findById(postagemId)
+                .orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
 
+        // *** A VERIFICAÇÃO DE AUTORIZAÇÃO CRUCIAL ***
+        if (!postagem.getAutor().getId().equals(usuarioLogado.getId())) {
+            // Se o ID do autor da postagem for diferente do ID do usuário logado, lança uma exceção.
+            throw new IllegalAccessException("Você não tem permissão para deletar esta postagem.");
+        }
 
-    public List<PostagemResponseFeedDTO> getFeed(){
-      return repository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
+        postagemRepository.delete(postagem);
     }
 
-
-    public boolean deletarPostagem(Long id){
-        if(repository.existsById(id)){
-            repository.deleteById(id);
-            return true;
-        }
-        else{
-            return false;
-        }
+    // MELHORIA 3: Busca postagens pelo objeto autor
+    public List<PostagemResponseFeedDTO> getPostagensByAutor(Usuario autor) {
+        return postagemRepository.findByAutor(autor).stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
     }
 }

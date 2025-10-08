@@ -22,6 +22,5 @@ public class EventoResponseFeedDTO
     private int numCurtidas;
     private int numComentarios;
     private int numCompartilhamentos;
-    private List<ComentarioResponseDTO> previaComentarios;
 }
 

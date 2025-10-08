@@ -7,6 +7,7 @@ import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.MetaRepository;
 import br.com.xareu.lift.Repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +17,9 @@ import java.util.stream.Collectors;
 public class MetaService {
 
     private final MetaRepository metaRepository;
-    private final UsuarioRepository usuarioRepository;
 
     public MetaService(MetaRepository metaRepository, UsuarioRepository usuarioRepository){
         this.metaRepository = metaRepository;
-        this.usuarioRepository = usuarioRepository;
     }
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Parte de DTOs */
@@ -41,14 +40,15 @@ public class MetaService {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-    public MetaResponseDTO criarMeta(MetaRequestDTO metaDTO, Long autorId){
-        Usuario autor = usuarioRepository.findById(autorId).orElseThrow(() -> new IllegalArgumentException("Autor não encontrado"  + autorId));
-
+    @Transactional
+    public MetaResponseDTO criarMeta(MetaRequestDTO metaDTO, Usuario autor) {
+        // A busca pelo autorId foi removida, pois o autor já vem autenticado.
         Meta meta = new Meta();
         meta.setNome(metaDTO.getNome());
         meta.setPublica(metaDTO.isPublica());
-        meta.setAutor(autor);
         meta.setDataFim(metaDTO.getDataFim());
+        meta.setAutor(autor); // Define o autor como o usuário que está logado!
+        // O status e data de início já têm valores padrão na sua entidade.
 
         Meta savedMeta = metaRepository.save(meta);
         return toResponseDTO(savedMeta);
@@ -59,26 +59,54 @@ public class MetaService {
         return metaRepository.findAll().stream().map(this ::toResponseDTO).collect(Collectors.toList());
     }
 
-    public Optional<MetaResponseDTO> atualizarMeta(MetaRequestDTO metaDTO, Long id){
-        return metaRepository.findById(id).map(meta -> {
-           meta.setNome(metaDTO.getNome());
-           meta.setPublica(metaDTO.isPublica());
-           meta.setStatus(metaDTO.getStatus());
-           meta.setDataInicio(metaDTO.getDataInicio());
-           meta.setDataFim(metaDTO.getDataFim());
+    @Transactional
+    public Optional<MetaResponseDTO> atualizarMeta(Long metaId, MetaRequestDTO metaDTO, Usuario usuarioLogado) throws IllegalAccessException {
+        Meta meta = metaRepository.findById(metaId)
+                .orElseThrow(() -> new RuntimeException("Meta não encontrada"));
 
-           Meta metaAtualizada = metaRepository.save(meta);
-           return toResponseDTO(metaAtualizada);
-        });
+        // *** A VERIFICAÇÃO DE AUTORIZAÇÃO CRUCIAL ***
+        if (!meta.getAutor().getId().equals(usuarioLogado.getId())) {
+            throw new IllegalAccessException("Você não tem permissão para editar esta meta.");
+        }
+
+        // Atualiza os campos da meta existente
+        meta.setNome(metaDTO.getNome());
+        meta.setPublica(metaDTO.isPublica());
+        meta.setStatus(metaDTO.getStatus());
+        meta.setDataFim(metaDTO.getDataFim());
+        // A data de início geralmente não é alterada, mas se for, adicione: meta.setDataInicio(metaDTO.getDataInicio());
+
+        Meta metaAtualizada = metaRepository.save(meta);
+        return Optional.of(toResponseDTO(metaAtualizada));
     }
 
-    public boolean deletarMeta(Long id){
-        if(metaRepository.existsById(id)){
-            metaRepository.deleteById(id);
-            return true;
+    @Transactional
+    public void deletarMeta(Long metaId, Usuario usuarioLogado) throws IllegalAccessException {
+        Meta meta = metaRepository.findById(metaId)
+                .orElseThrow(() -> new RuntimeException("Meta não encontrada"));
+
+        // *** A VERIFICAÇÃO DE AUTORIZAÇÃO CRUCIAL ***
+        if (!meta.getAutor().getId().equals(usuarioLogado.getId())) {
+            throw new IllegalAccessException("Você não tem permissão para deletar esta meta.");
         }
-        else{
-            return false;
-        }
+
+        metaRepository.delete(meta);
     }
+
+    public List<MetaResponseDTO> getMetasPorAutor(Usuario autor) {
+        return metaRepository.findByAutor(autor).stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<MetaResponseDTO> getAllPublicas() {
+
+        List<Meta> metasPublicas = metaRepository.findByPublicaTrue();
+
+
+        return metasPublicas.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
 }
