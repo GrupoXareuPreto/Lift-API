@@ -58,7 +58,7 @@ public class    UsuarioController {
     @PutMapping("/me")
     public ResponseEntity<UsuarioResponseDTO> atualizarMeuPerfil(
             @Valid @RequestBody UsuarioRequestDTO usuarioDTO,
-            @AuthenticationPrincipal Usuario usuarioLogado) { // Obtém o usuário do token
+            @AuthenticationPrincipal Usuario usuarioLogado) {
 
         UsuarioResponseDTO usuarioAtualizado = service.atualizarUsuarioLogado(usuarioDTO, usuarioLogado);
         return ResponseEntity.ok(usuarioAtualizado);
@@ -72,7 +72,6 @@ public class    UsuarioController {
 
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDTO> getMeuPerfil(@AuthenticationPrincipal Usuario usuarioLogado) {
-        // Reutilizamos o metodo `buscarPorId` para obter a DTO formatada.
         UsuarioResponseDTO meuPerfil = service.buscarPorId(usuarioLogado.getId());
         return ResponseEntity.ok(meuPerfil);
     }

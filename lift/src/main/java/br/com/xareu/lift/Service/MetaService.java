@@ -42,13 +42,11 @@ public class MetaService {
 
     @Transactional
     public MetaResponseDTO criarMeta(MetaRequestDTO metaDTO, Usuario autor) {
-        // A busca pelo autorId foi removida, pois o autor já vem autenticado.
         Meta meta = new Meta();
         meta.setNome(metaDTO.getNome());
         meta.setPublica(metaDTO.isPublica());
         meta.setDataFim(metaDTO.getDataFim());
-        meta.setAutor(autor); // Define o autor como o usuário que está logado!
-        // O status e data de início já têm valores padrão na sua entidade.
+        meta.setAutor(autor);
 
         Meta savedMeta = metaRepository.save(meta);
         return toResponseDTO(savedMeta);

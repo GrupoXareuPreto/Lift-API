@@ -22,33 +22,32 @@ public class PostagemController {
     @Autowired
     private PostagemService postagemService;
 
-    // MELHORIA 1: Endpoint simplificado e seguro para criar postagem
-    // O autor não vem mais da URL. Ele é obtido diretamente do token de autenticação.
+
     @PostMapping
     public ResponseEntity<PostagemResponseFeedDTO> createPostagem(
             @Valid @RequestBody PostagemRequestDTO postagemDTO,
-            @AuthenticationPrincipal Usuario usuarioLogado) { // <-- MÁGICA ACONTECENDO AQUI
+            @AuthenticationPrincipal Usuario usuarioLogado) {
 
         PostagemResponseFeedDTO novaPostagem = postagemService.createPostagem(postagemDTO, usuarioLogado);
         return new ResponseEntity<>(novaPostagem, HttpStatus.CREATED);
     }
 
-    // MELHORIA 2: Deletar postagem com verificação de permissão
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePostagem(
             @PathVariable Long id,
-            @AuthenticationPrincipal Usuario usuarioLogado) { // <-- Obtém o usuário que está tentando deletar
+            @AuthenticationPrincipal Usuario usuarioLogado) {
 
         try {
             postagemService.deletePostagem(id, usuarioLogado);
             return ResponseEntity.noContent().build();
         } catch (IllegalAccessException e) {
-            // Lança um erro 403 Forbidden se o usuário não for o dono
+
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
         }
     }
 
-    // MELHORIA 3: Endpoint para ver apenas as MINHAS postagens
+
     @GetMapping("/me")
     public ResponseEntity<List<PostagemResponseFeedDTO>> getMinhasPostagens(@AuthenticationPrincipal Usuario usuarioLogado) {
         List<PostagemResponseFeedDTO> minhasPostagens = postagemService.getPostagensByAutor(usuarioLogado);

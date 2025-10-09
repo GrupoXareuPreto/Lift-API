@@ -3,6 +3,7 @@ package br.com.xareu.lift.Service;
 import br.com.xareu.lift.DTO.Usuario.*;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +18,12 @@ public class UsuarioService {
     private final UsuarioRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        this.repository = usuarioRepository;
+    @Autowired
+    public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder) {
+        this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
+
     /*--------------------------------------------------------------------------------------------------------------------*/
     /*Parte de DTOs*/
     private UsuarioResponseDTO toResponseDTO(Usuario usuario){
@@ -76,7 +79,7 @@ public class UsuarioService {
 
     private Usuario toEntity(UsuarioRequestDTO dto){
         Usuario usuario = new Usuario();
-        usuario.setNome(dto.getNomee());
+        usuario.setNome(dto.getNome());
         usuario.setBiografia(dto.getBiografia());
         usuario.setEmail(dto.getEmail());
         usuario.setNomeUsuario(dto.getNomeUsuario());
@@ -112,7 +115,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponseDTO atualizarUsuarioLogado(UsuarioRequestDTO usuarioAtualizadoDTO, Usuario usuarioLogado) {
         // O usuarioLogado já é a entidade que queremos atualizar.
-        usuarioLogado.setNome(usuarioAtualizadoDTO.getNomee());
+        usuarioLogado.setNome(usuarioAtualizadoDTO.getNome());
         usuarioLogado.setNomeUsuario(usuarioAtualizadoDTO.getNomeUsuario());
         usuarioLogado.setBiografia(usuarioAtualizadoDTO.getBiografia());
         usuarioLogado.setEmail(usuarioAtualizadoDTO.getEmail());

@@ -15,7 +15,7 @@ public class UsuarioRequestDTO {
 
 
     @NotBlank(message = "O nome é obrigatório")
-    private String nomee;
+    private String nome;
 
     private String biografia;
 
