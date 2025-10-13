@@ -2,6 +2,7 @@ package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.DTO.Evento.EventoRequestCriarDTO;
 import br.com.xareu.lift.DTO.Evento.EventoResponseFeedDTO;
+import br.com.xareu.lift.DTO.Evento.EventoResponsePerfilDTO;
 import br.com.xareu.lift.Entity.Evento;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.EventoRepository;
@@ -42,6 +43,18 @@ public class EventoService {
             );
         }
 
+    }
+
+    public EventoResponsePerfilDTO toEventoResponsePerfilDTO(Evento evento){
+        if(evento == null){
+            return null;
+        }
+        else {
+            return new EventoResponsePerfilDTO(
+                    evento.getMidia(),
+                    evento.getTitulo()
+            );
+        }
     }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

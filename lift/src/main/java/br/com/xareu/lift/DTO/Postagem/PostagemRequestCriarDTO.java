@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostagemRequestDTO {
+public class PostagemRequestCriarDTO {
 
     @NotBlank(message = "A publicacao precisa de uma midia")
     private String midia;

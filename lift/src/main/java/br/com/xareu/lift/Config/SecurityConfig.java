@@ -26,14 +26,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        // Libera o endpoint de login para acesso público
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        // Libera o endpoint de criação de usuário (registro) para acesso público
                         .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
-                        // Libera endpoints GET públicos (opcional, mas bom para feeds)
-                        .requestMatchers(HttpMethod.GET, "/usuario", "/usuario/**").permitAll() // Permite ver perfis
-                        .requestMatchers(HttpMethod.GET, "/metas/publicas").permitAll() // Permite ver metas públicas
-                        // Para todas as OUTRAS requisições, exige autenticação
+                        .requestMatchers(HttpMethod.GET, "/usuario", "/usuario/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/metas/publicas").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -45,5 +41,4 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    // O Bean do PasswordEncoder foi REMOVIDO daqui e movido para ApplicationConfig.java
 }

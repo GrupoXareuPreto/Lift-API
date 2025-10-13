@@ -41,10 +41,7 @@ public class ComentarioController {
         }
     }
 
-    @GetMapping
-    public List<Comentario> getAll(){
-        return service.getAll();
-    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarComentario(

@@ -17,24 +17,35 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private MetaService metaService;
+    private EventoService eventoService;
+    private PostagemService postagemService;
 
     @Autowired
-    public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder, MetaService metaService, EventoService eventoService, PostagemService postagemService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.metaService = metaService;
+        this.eventoService = eventoService;
+        this.postagemService = postagemService;
     }
 
     /*--------------------------------------------------------------------------------------------------------------------*/
     /*Parte de DTOs*/
-    private UsuarioResponseDTO toResponseDTO(Usuario usuario){
+    private UsuarioResponsePerfilDTO toResponseDTO(Usuario usuario){
         if(usuario == null){
             return null;
         }
-        return new UsuarioResponseDTO(
+        return new UsuarioResponsePerfilDTO(
                 usuario.getNome(),
                 usuario.getBiografia(),
                 usuario.getEmail(),
-                usuario.getNomeUsuario()
+                usuario.getNomeUsuario(),
+                usuario.getMetas().stream().map(meta -> metaService.toResponsePerfilDTO(meta)).collect(Collectors.toList()),
+                usuario.getEventosCriados().stream().map(evento -> eventoService.toEventoResponsePerfilDTO(evento)).collect(Collectors.toList()),
+                usuario.getPostagens().stream().map(postagem -> postagemService.toPostagemResponseImagemDTO(postagem)).collect(Collectors.toList())
+
+
         );
     }
 
@@ -89,12 +100,12 @@ public class UsuarioService {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
     /*crud*/
-    public List<UsuarioResponseDTO> getAll() {
+    public List<UsuarioResponsePerfilDTO> getAll() {
         return repository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
     }
 
     @Transactional
-    public UsuarioResponseDTO criarUsuario(UsuarioRequestDTO usuarioDTO) {
+    public UsuarioResponsePerfilDTO criarUsuario(UsuarioRequestDTO usuarioDTO) {
         if (repository.findByEmail(usuarioDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email já existe");
         }
@@ -108,12 +119,12 @@ public class UsuarioService {
     }
 
 
-    public UsuarioResponseDTO buscarPorId(Long id){
+    public UsuarioResponsePerfilDTO buscarPorId(Long id){
          return repository.findById(id).map(this :: toResponseDTO).orElse(null);
     }
 
     @Transactional
-    public UsuarioResponseDTO atualizarUsuarioLogado(UsuarioRequestDTO usuarioAtualizadoDTO, Usuario usuarioLogado) {
+    public UsuarioResponsePerfilDTO atualizarUsuarioLogado(UsuarioRequestDTO usuarioAtualizadoDTO, Usuario usuarioLogado) {
         // O usuarioLogado já é a entidade que queremos atualizar.
         usuarioLogado.setNome(usuarioAtualizadoDTO.getNome());
         usuarioLogado.setNomeUsuario(usuarioAtualizadoDTO.getNomeUsuario());
@@ -135,7 +146,7 @@ public class UsuarioService {
         repository.deleteById(usuarioLogado.getId());
     }
 
-    public Optional<UsuarioResponseDTO> autenticarUsuario(UsuarioRequestAutenticarDTO credenciais){
+    public Optional<UsuarioResponsePerfilDTO> autenticarUsuario(UsuarioRequestAutenticarDTO credenciais){
         try{
             Optional<Usuario> usuarioOptional = repository.findByNomeUsuario(credenciais.getNomeUsuarioEmail());
             if (usuarioOptional.isEmpty()){

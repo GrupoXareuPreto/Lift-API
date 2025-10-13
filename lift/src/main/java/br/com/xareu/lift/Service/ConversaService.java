@@ -101,19 +101,19 @@ public class ConversaService {
 
 
     public Optional<Conversa> atualizarConversa(Conversa conversaAtualizada, Long id){
-        return repository.findById(id).map(conversa -> {
+        return conversaRepository.findById(id).map(conversa -> {
             conversa.setDescricao(conversaAtualizada.getDescricao());
             conversa.setFoto(conversaAtualizada.getFoto());
             conversa.setIntegrantes(conversaAtualizada.getIntegrantes());
 
-            return repository.save(conversa);
+            return conversaRepository.save(conversa);
         });
     }
 
 
     public boolean excluirConversa(Long id){
-        if(repository.existsById(id)){
-            repository.deleteById(id);
+        if(conversaRepository.existsById(id)){
+            conversaRepository.deleteById(id);
             return true;
         }
         else{

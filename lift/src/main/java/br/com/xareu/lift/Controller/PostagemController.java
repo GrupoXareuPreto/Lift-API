@@ -1,7 +1,7 @@
 // VERSÃO SEGURA E CORRETA
 package br.com.xareu.lift.Controller;
 
-import br.com.xareu.lift.DTO.Postagem.PostagemRequestDTO;
+import br.com.xareu.lift.DTO.Postagem.PostagemRequestCriarDTO;
 import br.com.xareu.lift.DTO.Postagem.PostagemResponseFeedDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Service.PostagemService;
@@ -25,10 +25,10 @@ public class PostagemController {
 
     @PostMapping
     public ResponseEntity<PostagemResponseFeedDTO> createPostagem(
-            @Valid @RequestBody PostagemRequestDTO postagemDTO,
+            @Valid @RequestBody PostagemRequestCriarDTO postagemDTO,
             @AuthenticationPrincipal Usuario usuarioLogado) {
 
-        PostagemResponseFeedDTO novaPostagem = postagemService.createPostagem(postagemDTO, usuarioLogado);
+        PostagemResponseFeedDTO novaPostagem = postagemService.criarPostagem(postagemDTO, usuarioLogado);
         return new ResponseEntity<>(novaPostagem, HttpStatus.CREATED);
     }
 

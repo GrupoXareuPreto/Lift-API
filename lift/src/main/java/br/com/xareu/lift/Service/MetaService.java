@@ -1,7 +1,7 @@
 package br.com.xareu.lift.Service;
 
-import br.com.xareu.lift.DTO.Meta.MetaRequestDTO;
-import br.com.xareu.lift.DTO.Meta.MetaResponseDTO;
+import br.com.xareu.lift.DTO.Meta.MetaRequestCriarDTO;
+import br.com.xareu.lift.DTO.Meta.MetaResponsePerfilDTO;
 import br.com.xareu.lift.Entity.Meta;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Repository.MetaRepository;
@@ -24,12 +24,12 @@ public class MetaService {
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Parte de DTOs */
 
-    private MetaResponseDTO toResponseDTO(Meta meta){
+    public MetaResponsePerfilDTO toResponsePerfilDTO(Meta meta){
         if(meta == null){
             return null;
         }
         else {
-            return new MetaResponseDTO(
+            return new MetaResponsePerfilDTO(
                     meta.getNome(),
                     meta.isPublica(),
                     meta.getStatus(),
@@ -38,10 +38,11 @@ public class MetaService {
         }
     }
 
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
     @Transactional
-    public MetaResponseDTO criarMeta(MetaRequestDTO metaDTO, Usuario autor) {
+    public MetaResponsePerfilDTO criarMeta(MetaRequestCriarDTO metaDTO, Usuario autor) {
         Meta meta = new Meta();
         meta.setNome(metaDTO.getNome());
         meta.setPublica(metaDTO.isPublica());
@@ -49,16 +50,16 @@ public class MetaService {
         meta.setAutor(autor);
 
         Meta savedMeta = metaRepository.save(meta);
-        return toResponseDTO(savedMeta);
+        return toResponsePerfilDTO(savedMeta);
     }
 
-    public List<MetaResponseDTO> getAll()
+    public List<MetaResponsePerfilDTO> getAll()
     {
-        return metaRepository.findAll().stream().map(this ::toResponseDTO).collect(Collectors.toList());
+        return metaRepository.findAll().stream().map(this ::toResponsePerfilDTO).collect(Collectors.toList());
     }
 
     @Transactional
-    public Optional<MetaResponseDTO> atualizarMeta(Long metaId, MetaRequestDTO metaDTO, Usuario usuarioLogado) throws IllegalAccessException {
+    public Optional<MetaResponsePerfilDTO> atualizarMeta(Long metaId, MetaRequestCriarDTO metaDTO, Usuario usuarioLogado) throws IllegalAccessException {
         Meta meta = metaRepository.findById(metaId)
                 .orElseThrow(() -> new RuntimeException("Meta não encontrada"));
 
@@ -75,7 +76,7 @@ public class MetaService {
         // A data de início geralmente não é alterada, mas se for, adicione: meta.setDataInicio(metaDTO.getDataInicio());
 
         Meta metaAtualizada = metaRepository.save(meta);
-        return Optional.of(toResponseDTO(metaAtualizada));
+        return Optional.of(toResponsePerfilDTO(metaAtualizada));
     }
 
     @Transactional
@@ -91,19 +92,19 @@ public class MetaService {
         metaRepository.delete(meta);
     }
 
-    public List<MetaResponseDTO> getMetasPorAutor(Usuario autor) {
+    public List<MetaResponsePerfilDTO> getMetasPorAutor(Usuario autor) {
         return metaRepository.findByAutor(autor).stream()
-                .map(this::toResponseDTO)
+                .map(this::toResponsePerfilDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<MetaResponseDTO> getAllPublicas() {
+    public List<MetaResponsePerfilDTO> getAllPublicas() {
 
         List<Meta> metasPublicas = metaRepository.findByPublicaTrue();
 
 
         return metasPublicas.stream()
-                .map(this::toResponseDTO)
+                .map(this::toResponsePerfilDTO)
                 .collect(Collectors.toList());
     }
 

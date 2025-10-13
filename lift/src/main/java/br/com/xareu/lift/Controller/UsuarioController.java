@@ -1,8 +1,7 @@
 package br.com.xareu.lift.Controller;
 
-import br.com.xareu.lift.DTO.Usuario.UsuarioRequestAutenticarDTO;
 import br.com.xareu.lift.DTO.Usuario.UsuarioRequestDTO;
-import br.com.xareu.lift.DTO.Usuario.UsuarioResponseDTO;
+import br.com.xareu.lift.DTO.Usuario.UsuarioResponsePerfilDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Service.UsuarioService;
 import jakarta.validation.Valid;
@@ -13,7 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
@@ -29,14 +27,14 @@ public class    UsuarioController {
 
 
     @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> listarTodos() {
-        List<UsuarioResponseDTO> usuarios = service.getAll();
+    public ResponseEntity<List<UsuarioResponsePerfilDTO>> listarTodos() {
+        List<UsuarioResponsePerfilDTO> usuarios = service.getAll();
         return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) {
-        UsuarioResponseDTO usuario = service.buscarPorId(id);
+    public ResponseEntity<UsuarioResponsePerfilDTO> buscarPorId(@PathVariable Long id) {
+        UsuarioResponsePerfilDTO usuario = service.buscarPorId(id);
         if (usuario != null) {
             return ResponseEntity.ok(usuario);
         } else {
@@ -46,9 +44,9 @@ public class    UsuarioController {
 
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> criarUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioDTO) {
+    public ResponseEntity<UsuarioResponsePerfilDTO> criarUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioDTO) {
         try {
-            UsuarioResponseDTO novoUsuario = service.criarUsuario(usuarioDTO);
+            UsuarioResponsePerfilDTO novoUsuario = service.criarUsuario(usuarioDTO);
             return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -56,11 +54,11 @@ public class    UsuarioController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<UsuarioResponseDTO> atualizarMeuPerfil(
+    public ResponseEntity<UsuarioResponsePerfilDTO> atualizarMeuPerfil(
             @Valid @RequestBody UsuarioRequestDTO usuarioDTO,
             @AuthenticationPrincipal Usuario usuarioLogado) {
 
-        UsuarioResponseDTO usuarioAtualizado = service.atualizarUsuarioLogado(usuarioDTO, usuarioLogado);
+        UsuarioResponsePerfilDTO usuarioAtualizado = service.atualizarUsuarioLogado(usuarioDTO, usuarioLogado);
         return ResponseEntity.ok(usuarioAtualizado);
     }
 
@@ -71,8 +69,8 @@ public class    UsuarioController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UsuarioResponseDTO> getMeuPerfil(@AuthenticationPrincipal Usuario usuarioLogado) {
-        UsuarioResponseDTO meuPerfil = service.buscarPorId(usuarioLogado.getId());
+    public ResponseEntity<UsuarioResponsePerfilDTO> getMeuPerfil(@AuthenticationPrincipal Usuario usuarioLogado) {
+        UsuarioResponsePerfilDTO meuPerfil = service.buscarPorId(usuarioLogado.getId());
         return ResponseEntity.ok(meuPerfil);
     }
 }

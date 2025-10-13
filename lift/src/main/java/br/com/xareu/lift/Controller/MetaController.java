@@ -1,7 +1,7 @@
 package br.com.xareu.lift.Controller;
 
-import br.com.xareu.lift.DTO.Meta.MetaRequestDTO;
-import br.com.xareu.lift.DTO.Meta.MetaResponseDTO;
+import br.com.xareu.lift.DTO.Meta.MetaRequestCriarDTO;
+import br.com.xareu.lift.DTO.Meta.MetaResponsePerfilDTO;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Service.MetaService;
 import jakarta.validation.Valid;
@@ -22,30 +22,30 @@ public class MetaController {
     private MetaService service;
 
     @PostMapping
-    public ResponseEntity<MetaResponseDTO> criarMeta(
-            @Valid @RequestBody MetaRequestDTO metaNova,
+    public ResponseEntity<MetaResponsePerfilDTO> criarMeta(
+            @Valid @RequestBody MetaRequestCriarDTO metaNova,
             @AuthenticationPrincipal Usuario usuarioLogado) { // Obtém o autor do token!
 
-        MetaResponseDTO novaMeta = service.criarMeta(metaNova, usuarioLogado);
+        MetaResponsePerfilDTO novaMeta = service.criarMeta(metaNova, usuarioLogado);
         return new ResponseEntity<>(novaMeta, HttpStatus.CREATED);
     }
 
     @GetMapping("/me")
-    public ResponseEntity<List<MetaResponseDTO>> getMinhasMetas(@AuthenticationPrincipal Usuario usuarioLogado) {
-        List<MetaResponseDTO> minhasMetas = service.getMetasPorAutor(usuarioLogado);
+    public ResponseEntity<List<MetaResponsePerfilDTO>> getMinhasMetas(@AuthenticationPrincipal Usuario usuarioLogado) {
+        List<MetaResponsePerfilDTO> minhasMetas = service.getMetasPorAutor(usuarioLogado);
         return ResponseEntity.ok(minhasMetas);
     }
 
     @GetMapping("/publicas")
-    public ResponseEntity<List<MetaResponseDTO>> getMetasPublicas() {
-        List<MetaResponseDTO> metas = service.getAllPublicas();
+    public ResponseEntity<List<MetaResponsePerfilDTO>> getMetasPublicas() {
+        List<MetaResponsePerfilDTO> metas = service.getAllPublicas();
         return ResponseEntity.ok(metas);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MetaResponseDTO> atualizarMeta(
+    public ResponseEntity<MetaResponsePerfilDTO> atualizarMeta(
             @PathVariable Long id,
-            @Valid @RequestBody MetaRequestDTO metaDTO,
+            @Valid @RequestBody MetaRequestCriarDTO metaDTO,
             @AuthenticationPrincipal Usuario usuarioLogado) {
 
         try {

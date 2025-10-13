@@ -1,9 +1,7 @@
 package br.com.xareu.lift.Controller;
 
 import br.com.xareu.lift.DTO.Evento.EventoRequestCriarDTO;
-import br.com.xareu.lift.DTO.Evento.EventoResponseDTO;
 import br.com.xareu.lift.DTO.Evento.EventoResponseFeedDTO;
-import br.com.xareu.lift.Entity.Evento;
 import br.com.xareu.lift.Entity.Usuario;
 import br.com.xareu.lift.Service.EventoService;
 import jakarta.validation.Valid;

@@ -49,9 +49,7 @@ public class ComentarioService {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 
-    public List<Comentario> getAll(){
-        return repository.findAll();
-    }
+
 
     @Transactional
     public ComentarioResponseDTO criarComentario(ComentarioRequestDTO dto, Usuario autorLogado) {

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventoResponseDTO {
-    private String a;
+public class EventoResponsePerfilDTO {
+    private String midia;
+    private String titulo;
 }
