@@ -2,6 +2,7 @@ package br.com.xareu.lift.Service;
 
 import br.com.xareu.lift.DTO.Usuario.*;
 import br.com.xareu.lift.Entity.Usuario;
+import br.com.xareu.lift.Mapper.UsuarioMapper;
 import br.com.xareu.lift.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,93 +16,23 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioService {
 
-    private final UsuarioRepository repository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UsuarioRepository repository;
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
+    @Autowired
+    private  UsuarioMapper mapper;
+    @Autowired
     private MetaService metaService;
+    @Autowired
     private EventoService eventoService;
+    @Autowired
     private PostagemService postagemService;
 
-    @Autowired
-    public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder, MetaService metaService, EventoService eventoService, PostagemService postagemService) {
-        this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
-        this.metaService = metaService;
-        this.eventoService = eventoService;
-        this.postagemService = postagemService;
-    }
 
-    /*--------------------------------------------------------------------------------------------------------------------*/
-    /*Parte de DTOs*/
-    private UsuarioResponsePerfilDTO toResponseDTO(Usuario usuario){
-        if(usuario == null){
-            return null;
-        }
-        return new UsuarioResponsePerfilDTO(
-                usuario.getNome(),
-                usuario.getBiografia(),
-                usuario.getEmail(),
-                usuario.getNomeUsuario(),
-                usuario.getMetas().stream().map(meta -> metaService.toResponsePerfilDTO(meta)).collect(Collectors.toList()),
-                usuario.getEventosCriados().stream().map(evento -> eventoService.toEventoResponsePerfilDTO(evento)).collect(Collectors.toList()),
-                usuario.getPostagens().stream().map(postagem -> postagemService.toPostagemResponseImagemDTO(postagem)).collect(Collectors.toList())
-
-
-        );
-    }
-
-    public UsuarioResponseCardPostagemEventoDTO toUsuarioCardPostagemEventoDTO(Usuario usuario){
-        if(usuario == null){
-            return null;
-        }
-        else {
-            return new UsuarioResponseCardPostagemEventoDTO(
-                    usuario.getFotoPerfil(),
-                    usuario.getNome(),
-                    usuario.getNomeUsuario()
-            );
-        }
-    }
-
-    public UsuarioResponseCardConversaDTO toUsuarioCardConversaDTO(Usuario usuario){
-        if(usuario == null){
-            return null;
-        }
-        else {
-            return new UsuarioResponseCardConversaDTO(
-                    usuario.getId(),
-                    usuario.getFotoPerfil(),
-                    usuario.getNome()
-            );
-        }
-    }
-
-    public UsuarioResponseComentarioDTO toUsuarioResponseComentarioDTO(Usuario usuario){
-        if(usuario == null){
-            return null;
-        }
-        else {
-            return new UsuarioResponseComentarioDTO(
-                    usuario.getFotoPerfil(),
-                    usuario.getNomeUsuario()
-            );
-
-        }
-    }
-
-    private Usuario toEntity(UsuarioRequestDTO dto){
-        Usuario usuario = new Usuario();
-        usuario.setNome(dto.getNome());
-        usuario.setBiografia(dto.getBiografia());
-        usuario.setEmail(dto.getEmail());
-        usuario.setNomeUsuario(dto.getNomeUsuario());
-        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
-        return usuario;
-    }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-    /*crud*/
     public List<UsuarioResponsePerfilDTO> getAll() {
-        return repository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
+        List<Usuario> usuarios = repository.findAll();
+        return mapper.toPerfilResponseList(usuarios);
     }
 
     @Transactional
@@ -113,14 +44,15 @@ public class UsuarioService {
             throw new IllegalArgumentException("Nome de Usuario já existe");
         }
 
-        Usuario usuario = toEntity(usuarioDTO);
+        Usuario usuario = mapper.toEntity(usuarioDTO);
         Usuario usuarioSalvo = repository.save(usuario);
-        return toResponseDTO(usuarioSalvo);
+        return  mapper.toResponsePerfilDTO(usuarioSalvo);
     }
 
 
     public UsuarioResponsePerfilDTO buscarPorId(Long id){
-         return repository.findById(id).map(this :: toResponseDTO).orElse(null);
+        Usuario usuario = repository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        return mapper.toResponsePerfilDTO(usuario);
     }
 
     @Transactional
@@ -137,7 +69,7 @@ public class UsuarioService {
         }
 
         Usuario usuarioAtualizado = repository.save(usuarioLogado);
-        return toResponseDTO(usuarioAtualizado); // Supondo que você tenha um `toResponseDTO`
+        return  mapper.toResponsePerfilDTO(usuarioAtualizado); // Supondo que você tenha um ` toResponsePerfilDTO`
     }
 
     @Transactional
@@ -154,7 +86,7 @@ public class UsuarioService {
             }
             Usuario usuario = usuarioOptional.get();
             if(passwordEncoder.matches(credenciais.getSenha(), usuario.getSenha())){
-                return Optional.of(toResponseDTO(usuario));
+                return Optional.of( mapper.toResponsePerfilDTO(usuario));
             }
             return Optional.empty();
 

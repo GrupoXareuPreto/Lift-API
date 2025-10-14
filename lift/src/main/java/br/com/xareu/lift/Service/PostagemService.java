@@ -5,6 +5,7 @@ import br.com.xareu.lift.DTO.Postagem.PostagemResponseFeedDTO;
 import br.com.xareu.lift.DTO.Postagem.PostagemResponseImagemDTO;
 import br.com.xareu.lift.Entity.Postagem;
 import br.com.xareu.lift.Entity.Usuario;
+import br.com.xareu.lift.Mapper.PostagemMapper;
 import br.com.xareu.lift.Repository.PostagemRepository;
 import br.com.xareu.lift.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PostagemService {
 /*Parte de DTOs*/
 
 
-    private PostagemResponseFeedDTO toResponseDTO(Postagem postagem){
+   /* private PostagemResponseFeedDTO toResponseDTO(Postagem postagem){
         if(postagem == null){
             return null;
         }
@@ -58,12 +59,15 @@ public class PostagemService {
             );
         }
     }
-
+*/
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
     @Autowired
     private PostagemRepository postagemRepository;
+
+    @Autowired
+    private PostagemMapper postagemMapper;
 
     @Transactional
     public PostagemResponseFeedDTO criarPostagem(PostagemRequestCriarDTO dto, Usuario autor) {
@@ -75,7 +79,7 @@ public class PostagemService {
 
 
         Postagem savedPostagem = postagemRepository.save(postagem);
-        return toResponseDTO(savedPostagem);
+        return postagemMapper.toResponseDTO(savedPostagem);
     }
 
 
@@ -95,7 +99,7 @@ public class PostagemService {
 
     public List<PostagemResponseFeedDTO> getPostagensByAutor(Usuario autor) {
         return postagemRepository.findByAutor(autor).stream()
-                .map(this::toResponseDTO)
+                .map(this::postagemMapper.toResponseDTO)
                 .collect(Collectors.toList());
     }
 }
