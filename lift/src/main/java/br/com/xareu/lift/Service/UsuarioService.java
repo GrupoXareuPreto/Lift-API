@@ -37,10 +37,10 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioResponsePerfilDTO criarUsuario(UsuarioRequestDTO usuarioDTO) {
-        if (repository.findByEmail(usuarioDTO.getEmail()).isPresent()) {
+        if (repository.findByEmail(usuarioDTO.email()).isPresent()) {
             throw new IllegalArgumentException("Email já existe");
         }
-        if (repository.findByNomeUsuario(usuarioDTO.getNomeUsuario()).isPresent()) {
+        if (repository.findByNomeUsuario(usuarioDTO.nomeUsuario()).isPresent()) {
             throw new IllegalArgumentException("Nome de Usuario já existe");
         }
 
@@ -58,14 +58,14 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponsePerfilDTO atualizarUsuarioLogado(UsuarioRequestDTO usuarioAtualizadoDTO, Usuario usuarioLogado) {
         // O usuarioLogado já é a entidade que queremos atualizar.
-        usuarioLogado.setNome(usuarioAtualizadoDTO.getNome());
-        usuarioLogado.setNomeUsuario(usuarioAtualizadoDTO.getNomeUsuario());
-        usuarioLogado.setBiografia(usuarioAtualizadoDTO.getBiografia());
-        usuarioLogado.setEmail(usuarioAtualizadoDTO.getEmail());
+        usuarioLogado.setNome(usuarioAtualizadoDTO.nome());
+        usuarioLogado.setNomeUsuario(usuarioAtualizadoDTO.nomeUsuario());
+        usuarioLogado.setBiografia(usuarioAtualizadoDTO.biografia());
+        usuarioLogado.setEmail(usuarioAtualizadoDTO.email());
 
         // A senha só deve ser atualizada se for explicitamente fornecida.
-        if (usuarioAtualizadoDTO.getSenha() != null && !usuarioAtualizadoDTO.getSenha().isEmpty()) {
-            usuarioLogado.setSenha(passwordEncoder.encode(usuarioAtualizadoDTO.getSenha()));
+        if (usuarioAtualizadoDTO.senha() != null && !usuarioAtualizadoDTO.senha().isEmpty()) {
+            usuarioLogado.setSenha(passwordEncoder.encode(usuarioAtualizadoDTO.senha()));
         }
 
         Usuario usuarioAtualizado = repository.save(usuarioLogado);

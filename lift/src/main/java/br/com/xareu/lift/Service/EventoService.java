@@ -5,8 +5,10 @@ import br.com.xareu.lift.DTO.Evento.EventoResponseFeedDTO;
 import br.com.xareu.lift.DTO.Evento.EventoResponsePerfilDTO;
 import br.com.xareu.lift.Entity.Evento;
 import br.com.xareu.lift.Entity.Usuario;
+import br.com.xareu.lift.Mapper.EventoMapper;
 import br.com.xareu.lift.Repository.EventoRepository;
 import br.com.xareu.lift.Repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,17 +18,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class EventoService {
-    private EventoRepository repository;
-    private UsuarioRepository usuarioRepository;
-    private UsuarioService usuarioService;
 
-
-    public EventoService(EventoRepository eventoRepository, UsuarioRepository usuarioRepository){
-        this.repository = eventoRepository;
-        this.usuarioRepository = usuarioRepository;
-    }
 /*--------------------------------------------------------------------------------------------------------------------*/
-/*Parte de DTOs*/
+/*Parte de DTOs
 
     private EventoResponseFeedDTO toResponseFeedDTO(Evento evento){
         if(evento == null){
@@ -57,11 +51,13 @@ public class EventoService {
         }
     }
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+--------------------------------------------------------------------------------------------------------------------*/
 
+    @Autowired
+    private EventoRepository repository;
 
-
-
+    @Autowired
+    private EventoMapper mapper;
 
     @Transactional
     public EventoResponseFeedDTO criarEvento(EventoRequestCriarDTO dto, Usuario autor) {
@@ -75,15 +71,14 @@ public class EventoService {
         evento.setAutor(autor); // Define o autor como o usuário que está logado!
 
         Evento eventoSaved = repository.save(evento);
-        return toResponseFeedDTO(eventoSaved);
+        return mapper.toResponseFeedDTO(eventoSaved);
     }
 
 
     // MELHORIA 2: O método getAll agora retorna uma lista de DTOs.
     public List<EventoResponseFeedDTO> getAll() {
-        return repository.findAll().stream()
-                .map(this::toResponseFeedDTO)
-                .collect(Collectors.toList());
+        return mapper.toResponseFeedDTOList(repository.findAll());
+
     }
 
 
@@ -126,6 +121,6 @@ public class EventoService {
         eventoExistente.setDataFim(dto.getDataFim());
 
         Evento eventoAtualizado = repository.save(eventoExistente);
-        return Optional.of(toResponseFeedDTO(eventoAtualizado));
+        return Optional.of(mapper.toResponseFeedDTO(eventoAtualizado));
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,7 @@ public class PostagemService {
 
 
         Postagem savedPostagem = postagemRepository.save(postagem);
-        return postagemMapper.toResponseDTO(savedPostagem);
+        return postagemMapper.toResponseFeedDTO(savedPostagem);
     }
 
 
@@ -98,8 +99,7 @@ public class PostagemService {
 
 
     public List<PostagemResponseFeedDTO> getPostagensByAutor(Usuario autor) {
-        return postagemRepository.findByAutor(autor).stream()
-                .map(this::postagemMapper.toResponseDTO)
-                .collect(Collectors.toList());
+        List<Postagem> postagens = postagemRepository.findByAutor(autor);
+        return postagemMapper.toResponseFeedDTOList(postagens);
     }
 }
